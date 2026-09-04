@@ -22,6 +22,11 @@ msgstr ""
 msgid "(leave empty to keep)"
 msgstr ""
 
+#. placeholder {0}: m.uptime.toFixed(2)
+#: src/components/routes/uptime.tsx
+msgid "{0} % uptime"
+msgstr ""
+
 #. placeholder {0}: newVersion.v
 #: src/components/footer-repo-link.tsx
 msgctxt "New version available"
@@ -121,6 +126,10 @@ msgstr "30일"
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "5 min"
 msgstr "5분"
+
+#: src/components/routes/uptime.tsx
+msgid "90 days ago"
+msgstr ""
 
 #: src/components/routes/monitor-dialog.tsx
 msgid "Accepted codes"
@@ -225,6 +234,10 @@ msgstr "모든 컨테이너"
 #: src/components/systems-table/systems-table.tsx
 msgid "All Systems"
 msgstr "모든 시스템"
+
+#: src/components/routes/uptime.tsx
+msgid "All Systems Operational"
+msgstr ""
 
 #. placeholder {0}: monitor.name
 #: src/components/routes/monitors.tsx
@@ -729,6 +742,10 @@ msgstr "기본값"
 msgid "Default time period"
 msgstr "기본 기간"
 
+#: src/components/routes/uptime.tsx
+msgid "Degraded"
+msgstr ""
+
 #: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -805,6 +822,7 @@ msgstr "문서"
 #. Context: System is down
 #: src/components/alerts-history-columns.tsx
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 #: src/lib/alerts.ts
 msgid "Down"
@@ -1283,6 +1301,10 @@ msgstr "주 PID"
 msgid "Manage display and notification preferences."
 msgstr "디스플레이 및 알림 설정"
 
+#: src/components/routes/uptime.tsx
+msgid "Manage monitors"
+msgstr ""
+
 #: src/components/add-system.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Manual setup instructions"
@@ -1393,9 +1415,17 @@ msgstr "아니오"
 msgid "No checks recorded yet."
 msgstr ""
 
+#: src/components/routes/uptime.tsx
+msgid "No data yet"
+msgstr ""
+
 #: src/components/routes/system/zfs-table.tsx
 msgid "No detail data for this pool."
 msgstr "이 풀에 대한 상세 데이터가 없습니다."
+
+#: src/components/routes/uptime.tsx
+msgid "No monitors yet."
+msgstr ""
 
 #: src/components/routes/monitors.tsx
 msgid "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
@@ -1481,6 +1511,10 @@ msgstr "OTP"
 msgid "Open menu"
 msgstr "메뉴 열기"
 
+#: src/components/routes/uptime.tsx
+msgid "Operational"
+msgstr ""
+
 #: src/components/login/auth-form.tsx
 msgid "Or continue with"
 msgstr "또는 아래 항목으로 진행하기"
@@ -1552,6 +1586,7 @@ msgstr "일시 중지"
 msgid "Pause toggled"
 msgstr ""
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Paused"
 msgstr "일시 정지됨"
@@ -1896,6 +1931,10 @@ msgstr "시리얼 번호"
 msgid "Service Details"
 msgstr "서비스 세부 정보"
 
+#: src/components/routes/uptime.tsx
+msgid "Service Disruption"
+msgstr ""
+
 #: src/components/routes/system.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Services"
@@ -2110,6 +2149,10 @@ msgstr ""
 msgid "To email(s)"
 msgstr "받는사람(들)"
 
+#: src/components/routes/uptime.tsx
+msgid "Today"
+msgstr ""
+
 #: src/components/add-system.tsx
 #: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -2291,6 +2334,8 @@ msgid "Upload"
 msgstr "업로드"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Uptime"
 msgstr "가동시간"
@@ -2302,6 +2347,15 @@ msgstr ""
 #. placeholder {0}: monitor.uptime_24h > 0 ? monitor.uptime_24h.toFixed(1) : "—"
 #: src/components/routes/monitors.tsx
 msgid "Uptime 24h: {0}%"
+msgstr ""
+
+#: src/components/routes/uptime.tsx
+msgid "Uptime over the past 90 days, one bar per day."
+msgstr ""
+
+#: src/components/navbar.tsx
+#: src/components/navbar.tsx
+msgid "Uptime status"
 msgstr ""
 
 #: src/components/routes/system/charts/disk-charts.tsx

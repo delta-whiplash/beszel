@@ -22,6 +22,11 @@ msgstr ""
 msgid "(leave empty to keep)"
 msgstr ""
 
+#. placeholder {0}: m.uptime.toFixed(2)
+#: src/components/routes/uptime.tsx
+msgid "{0} % uptime"
+msgstr ""
+
 #. placeholder {0}: newVersion.v
 #: src/components/footer-repo-link.tsx
 msgctxt "New version available"
@@ -121,6 +126,10 @@ msgstr "30天"
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "5 min"
 msgstr "5 分鐘"
+
+#: src/components/routes/uptime.tsx
+msgid "90 days ago"
+msgstr ""
 
 #: src/components/routes/monitor-dialog.tsx
 msgid "Accepted codes"
@@ -225,6 +234,10 @@ msgstr "所有容器"
 #: src/components/systems-table/systems-table.tsx
 msgid "All Systems"
 msgstr "所有系統"
+
+#: src/components/routes/uptime.tsx
+msgid "All Systems Operational"
+msgstr ""
 
 #. placeholder {0}: monitor.name
 #: src/components/routes/monitors.tsx
@@ -729,6 +742,10 @@ msgstr "預設"
 msgid "Default time period"
 msgstr "預設時間段"
 
+#: src/components/routes/uptime.tsx
+msgid "Degraded"
+msgstr ""
+
 #: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -805,6 +822,7 @@ msgstr "文件"
 #. Context: System is down
 #: src/components/alerts-history-columns.tsx
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 #: src/lib/alerts.ts
 msgid "Down"
@@ -1283,6 +1301,10 @@ msgstr "主 PID"
 msgid "Manage display and notification preferences."
 msgstr "管理顯示和通知偏好。"
 
+#: src/components/routes/uptime.tsx
+msgid "Manage monitors"
+msgstr ""
+
 #: src/components/add-system.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Manual setup instructions"
@@ -1393,9 +1415,17 @@ msgstr "否"
 msgid "No checks recorded yet."
 msgstr ""
 
+#: src/components/routes/uptime.tsx
+msgid "No data yet"
+msgstr ""
+
 #: src/components/routes/system/zfs-table.tsx
 msgid "No detail data for this pool."
 msgstr "此儲存池沒有可用的詳細資料。"
+
+#: src/components/routes/uptime.tsx
+msgid "No monitors yet."
+msgstr ""
 
 #: src/components/routes/monitors.tsx
 msgid "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
@@ -1481,6 +1511,10 @@ msgstr "一次性密碼"
 msgid "Open menu"
 msgstr "開啟選單"
 
+#: src/components/routes/uptime.tsx
+msgid "Operational"
+msgstr ""
+
 #: src/components/login/auth-form.tsx
 msgid "Or continue with"
 msgstr "或繼續使用"
@@ -1552,6 +1586,7 @@ msgstr "暫停"
 msgid "Pause toggled"
 msgstr ""
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Paused"
 msgstr "已暫停"
@@ -1896,6 +1931,10 @@ msgstr "序號"
 msgid "Service Details"
 msgstr "服務詳細資訊"
 
+#: src/components/routes/uptime.tsx
+msgid "Service Disruption"
+msgstr ""
+
 #: src/components/routes/system.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Services"
@@ -2110,6 +2149,10 @@ msgstr ""
 msgid "To email(s)"
 msgstr "發送到電子郵件"
 
+#: src/components/routes/uptime.tsx
+msgid "Today"
+msgstr ""
+
 #: src/components/add-system.tsx
 #: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -2291,6 +2334,8 @@ msgid "Upload"
 msgstr "上傳"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Uptime"
 msgstr "運行時間"
@@ -2302,6 +2347,15 @@ msgstr ""
 #. placeholder {0}: monitor.uptime_24h > 0 ? monitor.uptime_24h.toFixed(1) : "—"
 #: src/components/routes/monitors.tsx
 msgid "Uptime 24h: {0}%"
+msgstr ""
+
+#: src/components/routes/uptime.tsx
+msgid "Uptime over the past 90 days, one bar per day."
+msgstr ""
+
+#: src/components/navbar.tsx
+#: src/components/navbar.tsx
+msgid "Uptime status"
 msgstr ""
 
 #: src/components/routes/system/charts/disk-charts.tsx

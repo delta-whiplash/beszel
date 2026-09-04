@@ -17,6 +17,11 @@ msgstr ""
 msgid "(leave empty to keep)"
 msgstr "(leave empty to keep)"
 
+#. placeholder {0}: m.uptime.toFixed(2)
+#: src/components/routes/uptime.tsx
+msgid "{0} % uptime"
+msgstr "{0} % uptime"
+
 #. placeholder {0}: newVersion.v
 #: src/components/footer-repo-link.tsx
 msgctxt "New version available"
@@ -116,6 +121,10 @@ msgstr "30 days"
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "5 min"
 msgstr "5 min"
+
+#: src/components/routes/uptime.tsx
+msgid "90 days ago"
+msgstr "90 days ago"
 
 #: src/components/routes/monitor-dialog.tsx
 msgid "Accepted codes"
@@ -220,6 +229,10 @@ msgstr "All Containers"
 #: src/components/systems-table/systems-table.tsx
 msgid "All Systems"
 msgstr "All Systems"
+
+#: src/components/routes/uptime.tsx
+msgid "All Systems Operational"
+msgstr "All Systems Operational"
 
 #. placeholder {0}: monitor.name
 #: src/components/routes/monitors.tsx
@@ -724,6 +737,10 @@ msgstr "Default"
 msgid "Default time period"
 msgstr "Default time period"
 
+#: src/components/routes/uptime.tsx
+msgid "Degraded"
+msgstr "Degraded"
+
 #: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -800,6 +817,7 @@ msgstr "Documentation"
 #. Context: System is down
 #: src/components/alerts-history-columns.tsx
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 #: src/lib/alerts.ts
 msgid "Down"
@@ -1278,6 +1296,10 @@ msgstr "Main PID"
 msgid "Manage display and notification preferences."
 msgstr "Manage display and notification preferences."
 
+#: src/components/routes/uptime.tsx
+msgid "Manage monitors"
+msgstr "Manage monitors"
+
 #: src/components/add-system.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Manual setup instructions"
@@ -1388,9 +1410,17 @@ msgstr "No"
 msgid "No checks recorded yet."
 msgstr "No checks recorded yet."
 
+#: src/components/routes/uptime.tsx
+msgid "No data yet"
+msgstr "No data yet"
+
 #: src/components/routes/system/zfs-table.tsx
 msgid "No detail data for this pool."
 msgstr "No detail data for this pool."
+
+#: src/components/routes/uptime.tsx
+msgid "No monitors yet."
+msgstr "No monitors yet."
 
 #: src/components/routes/monitors.tsx
 msgid "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
@@ -1476,6 +1506,10 @@ msgstr "One-time password"
 msgid "Open menu"
 msgstr "Open menu"
 
+#: src/components/routes/uptime.tsx
+msgid "Operational"
+msgstr "Operational"
+
 #: src/components/login/auth-form.tsx
 msgid "Or continue with"
 msgstr "Or continue with"
@@ -1547,6 +1581,7 @@ msgstr "Pause"
 msgid "Pause toggled"
 msgstr "Pause toggled"
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Paused"
 msgstr "Paused"
@@ -1891,6 +1926,10 @@ msgstr "Serial Number"
 msgid "Service Details"
 msgstr "Service Details"
 
+#: src/components/routes/uptime.tsx
+msgid "Service Disruption"
+msgstr "Service Disruption"
+
 #: src/components/routes/system.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Services"
@@ -2105,6 +2144,10 @@ msgstr "Timeout must be positive and less than the interval."
 msgid "To email(s)"
 msgstr "To email(s)"
 
+#: src/components/routes/uptime.tsx
+msgid "Today"
+msgstr "Today"
+
 #: src/components/add-system.tsx
 #: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -2286,6 +2329,8 @@ msgid "Upload"
 msgstr "Upload"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Uptime"
 msgstr "Uptime"
@@ -2298,6 +2343,15 @@ msgstr "Uptime 24h"
 #: src/components/routes/monitors.tsx
 msgid "Uptime 24h: {0}%"
 msgstr "Uptime 24h: {0}%"
+
+#: src/components/routes/uptime.tsx
+msgid "Uptime over the past 90 days, one bar per day."
+msgstr "Uptime over the past 90 days, one bar per day."
+
+#: src/components/navbar.tsx
+#: src/components/navbar.tsx
+msgid "Uptime status"
+msgstr "Uptime status"
 
 #: src/components/routes/system/charts/disk-charts.tsx
 #: src/components/routes/system/charts/disk-charts.tsx

@@ -33,6 +33,7 @@ const Containers = lazy(() => import("@/components/routes/containers.tsx"))
 const Smart = lazy(() => import("@/components/routes/smart.tsx"))
 const Monitors = lazy(() => import("@/components/routes/monitors.tsx"))
 const MonitorDetail = lazy(() => import("@/components/routes/monitor.tsx"))
+const Uptime = lazy(() => import("@/components/routes/uptime.tsx"))
 const SystemDetail = lazy(() => import("@/components/routes/system.tsx"))
 const CopyToClipboardDialog = lazy(() => import("@/components/copy-to-clipboard.tsx"))
 
@@ -88,6 +89,8 @@ const App = memo(() => {
 		return <Monitors />
 	} else if (page.route === "monitor") {
 		return <MonitorDetail id={page.params.id} />
+	} else if (page.route === "uptime") {
+		return <Uptime />
 	} else if (page.route === "settings") {
 		return <Settings />
 	}

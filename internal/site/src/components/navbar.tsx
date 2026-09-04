@@ -2,7 +2,7 @@ import { t } from "@lingui/core/macro"
 import { Trans } from "@lingui/react/macro"
 import { getPagePath } from "@nanostores/router"
 import {
-	ActivityIcon,
+	HeartPulseIcon,
 	ContainerIcon,
 	DatabaseBackupIcon,
 	HardDriveIcon,
@@ -113,6 +113,10 @@ export default function Navbar() {
 								<ActivityIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
 								<Trans>Monitors</Trans>
 							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => navigate(getPagePath($router, "uptime"))} className="flex items-center">
+								<HeartPulseIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
+								<Trans>Uptime status</Trans>
+							</DropdownMenuItem>
 							<DropdownMenuItem
 								onClick={() => navigate(getPagePath($router, "settings", { name: "general" }))}
 								className="flex items-center"
@@ -197,6 +201,21 @@ export default function Navbar() {
 					</TooltipTrigger>
 					<TooltipContent>
 						<Trans>Monitors</Trans>
+					</TooltipContent>
+				</Tooltip>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Link
+							href={getPagePath($router, "uptime")}
+							className={cn("hidden md:grid", buttonVariants({ variant: "ghost", size: "icon" }))}
+							aria-label="Uptime"
+							onMouseEnter={runOnce(() => import("@/components/routes/uptime"))}
+						>
+							<HeartPulseIcon className="h-[1.2rem] w-[1.2rem]" strokeWidth={1.5} />
+						</Link>
+					</TooltipTrigger>
+					<TooltipContent>
+						<Trans>Uptime status</Trans>
 					</TooltipContent>
 				</Tooltip>
 				<ModeToggle />

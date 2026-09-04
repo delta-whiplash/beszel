@@ -61,6 +61,7 @@ func RegisterRoutes(se *core.ServeEvent) {
 	g.GET("", api.list)
 	g.POST("", api.create)
 	g.GET("/summary", api.summary)
+	g.GET("/uptime", api.uptime)
 	g.GET("/{id}", api.get)
 	g.PATCH("/{id}", api.update)
 	g.DELETE("/{id}", api.delete)
@@ -586,4 +587,85 @@ func (a *MonitorAPI) summary(e *core.RequestEvent) error {
 		down = []map[string]any{}
 	}
 	return e.JSON(http.StatusOK, map[string]any{"counts": counts, "down": down})
+}
+
+// uptimeDays is the number of daily buckets in the status view.
+const uptimeDays = 90
+
+// uptime serves the Kuma-style status view data: one entry per visible
+// monitor with 90 daily buckets (worst status of the day: down > warn > up,
+// empty = no data), the overall uptime ratio and the current status.
+func (a *MonitorAPI) uptime(e *core.RequestEvent) error {
+	recs, err := a.app.FindAllRecords("monitors")
+	if err != nil {
+		return e.InternalServerError("failed to load monitors", err)
+	}
+	recs = filterMonitorRecords(recs, e.Auth.Id, "")
+	sortMonitorsByName(recs)
+
+	now := time.Now().UTC()
+	start := now.Add(-time.Duration(uptimeDays*24) * time.Hour)
+	type dayRow struct {
+		Day    string `db:"day"`
+		Status string `db:"status"`
+		Count  int    `db:"cnt"`
+	}
+	out := make([]map[string]any, 0, len(recs))
+	anyDown := false
+	for _, rec := range recs {
+		st := rec.GetString("status")
+		if rec.GetBool("paused") {
+			st = "paused"
+		}
+		if st == "down" {
+			anyDown = true
+		}
+		var rows []dayRow
+		err := a.app.DB().NewQuery(`SELECT date(created) as day, status, COUNT(*) as cnt FROM monitor_checks WHERE monitor = {:mon} AND created >= {:start} GROUP BY day, status`).
+			Bind(dbx.Params{"mon": rec.Id, "start": start}).All(&rows)
+		if err != nil {
+			return e.InternalServerError("failed to load uptime history", err)
+		}
+		byDay := make(map[string][]dayRow, len(rows))
+		for _, r := range rows {
+			byDay[r.Day] = append(byDay[r.Day], r)
+		}
+		buckets := make([]string, 0, uptimeDays)
+		var up, total int
+		// Buckets cover [today-89, today]: d=1 is 89 days ago, d=90 is today.
+		for d := 1; d <= uptimeDays; d++ {
+			day := now.Add(-time.Duration((uptimeDays-d)*24) * time.Hour).Format("2006-01-02")
+			dayRows := byDay[day]
+			if len(dayRows) == 0 {
+				buckets = append(buckets, "")
+				continue
+			}
+			worst := "up"
+			for _, r := range dayRows {
+				total += r.Count
+				if r.Status == "up" || r.Status == "warn" {
+					up += r.Count
+				}
+				if r.Status == "down" {
+					worst = "down"
+				} else if r.Status == "warn" && worst == "up" {
+					worst = "warn"
+				}
+			}
+			buckets = append(buckets, worst)
+		}
+		var ratio float64
+		if total > 0 {
+			ratio = float64(up) / float64(total) * 100
+		}
+		out = append(out, map[string]any{
+			"id": rec.Id, "name": rec.GetString("name"), "status": st,
+			"uptime": ratio, "days": buckets,
+		})
+	}
+	status := "operational"
+	if anyDown {
+		status = "outage"
+	}
+	return e.JSON(http.StatusOK, map[string]any{"status": status, "monitors": out})
 }

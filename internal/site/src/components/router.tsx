@@ -6,6 +6,7 @@ const routes = {
 	smart: "/smart",
 	monitors: "/monitors",
 	monitor: "/monitors/:id",
+	uptime: "/uptime",
 	system: `/system/:id`,
 	settings: `/settings/:name?`,
 	forgot_password: `/forgot-password`,

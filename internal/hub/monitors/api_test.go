@@ -6,10 +6,12 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/henrygd/beszel/internal/hub/monitors"
 	_ "github.com/henrygd/beszel/internal/migrations"
 
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
 	pbtests "github.com/pocketbase/pocketbase/tests"
 	"github.com/stretchr/testify/require"
@@ -637,4 +639,49 @@ func TestMonitorAPI_ListSortedAndBounds(t *testing.T) {
 		}
 		sc.Test(t)
 	}
+}
+
+func TestMonitorAPI_UptimeView(t *testing.T) {
+	app, token := sharedAPIApp(t)
+	factory := func(testing.TB) *pbtests.TestApp { return app }
+	auth := map[string]string{"Authorization": token, "Content-Type": "application/json"}
+	hook := withMonitorRoutes()
+
+	create := pbtests.ApiScenario{
+		Name: "create", Method: http.MethodPost, URL: "/api/beszel/monitors",
+		Body:    strings.NewReader(`{"name":"u","type":"ping","target":"example.com"}`),
+		Headers: auth, ExpectedStatus: 201, ExpectedContent: []string{`"name":"u"`},
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	create.Test(t)
+
+	recs, err := app.FindAllRecords("monitors")
+	require.NoError(t, err)
+	require.Len(t, recs, 1)
+
+	checksCol, err := app.FindCachedCollectionByNameOrId("monitor_checks")
+	require.NoError(t, err)
+	mk := func(status string, at time.Time) {
+		c := core.NewRecord(checksCol)
+		c.Set("monitor", recs[0].Id)
+		c.Set("status", status)
+		require.NoError(t, app.Save(c))
+		_, err = app.DB().NewQuery("UPDATE monitor_checks SET created = {:ts}, updated = {:ts} WHERE id = {:id}").Bind(dbx.Params{
+			"ts": at.UTC().Format("2006-01-02 15:04:05.000Z"), "id": c.Id,
+		}).Execute()
+		require.NoError(t, err)
+	}
+	now := time.Now().UTC()
+	mk("up", now.Add(-time.Hour))
+	mk("up", now.Add(-2*time.Hour))
+	mk("down", now.Add(-26*time.Hour))
+	mk("up", now.Add(-50*time.Hour))
+
+	view := pbtests.ApiScenario{
+		Name: "uptime view", Method: http.MethodGet, URL: "/api/beszel/monitors/uptime",
+		Headers: auth, ExpectedStatus: 200,
+		ExpectedContent: []string{`"name":"u"`, `"days":`, `"uptime":75`},
+		TestAppFactory:  factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	view.Test(t)
 }
