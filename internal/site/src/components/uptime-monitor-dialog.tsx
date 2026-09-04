@@ -144,10 +144,9 @@ export function UptimeMonitorDialog({
 			setError(t`Timeout must be positive and less than the interval.`)
 			return
 		}
-	// Merge form keys over the stored config so settings made via API or
-		// YAML survive a UI save. Secrets are never shown here; the API keeps
-		// stored secrets when they are absent from the patch.
-		const config: Record<string, unknown> = { ...(monitor?.config ?? {}) }
+	// Fresh config from the form (create-only dialog: no stored config to
+		// merge, since editing happens via API/YAML).
+		const config: Record<string, unknown> = {}
 		const num = (v: string) => Number.parseInt(v, 10)
 		// Drop keys that belong to other monitor types so switching type
 		// cannot leave behind invisible behavior (e.g. a keyword check on
@@ -283,6 +282,7 @@ export function UptimeMonitorDialog({
 				resend_after: resendAfter,
 				upside_down: form.upsideDown,
 				notify: form.notify,
+				users: pb.authStore.record ? [pb.authStore.record.id] : [],
 				config,
 			}
 			await pb.collection("monitors").create(body)
