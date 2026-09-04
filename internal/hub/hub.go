@@ -58,10 +58,12 @@ func NewHub(app core.App) *Hub {
 }
 
 // sendMonitorAlert adapts Engine notifications to the alerts pipeline
-// (emails + shoutrrr webhooks + quiet hours via SendAlert).
-func (h *Hub) sendMonitorAlert(userID, title, message, link string) {
+// (emails + shoutrrr webhooks + quiet hours via SendAlert), restricted to
+// the monitor's channel subsets when set.
+func (h *Hub) sendMonitorAlert(userID, title, message, link string, emails, webhooks []string) {
 	_ = h.SendAlert(alerts.AlertMessageData{
 		UserID: userID, Title: title, Message: message, Link: link, LinkText: "View monitor",
+		Emails: emails, Webhooks: webhooks,
 	})
 }
 

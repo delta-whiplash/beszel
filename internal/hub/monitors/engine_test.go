@@ -27,7 +27,7 @@ type fakeSender struct {
 	sent []sentAlert
 }
 
-func (f *fakeSender) Send(userID, title, message, link string) {
+func (f *fakeSender) Send(userID, title, message, link string, emails, webhooks []string) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.sent = append(f.sent, sentAlert{userID: userID, title: title})
@@ -200,7 +200,7 @@ func TestEngine_RecoveryMessageHasDurationAndUptime(t *testing.T) {
 	mon, _ := seedEngineMonitor(t, app, "rich", true, 0)
 	var messages []string
 	var mu sync.Mutex
-	eng := monitors.NewEngine(app, func(userID, title, message, link string) {
+	eng := monitors.NewEngine(app, func(userID, title, message, link string, emails, webhooks []string) {
 		mu.Lock()
 		messages = append(messages, title+"|"+message+"|"+link)
 		mu.Unlock()
@@ -256,4 +256,36 @@ func TestEngine_LiveLoopSurvivesOwnWrites(t *testing.T) {
 		}
 		time.Sleep(200 * time.Millisecond)
 	}
+}
+
+func TestEngine_MaintenanceSuppressesNotify(t *testing.T) {
+	app := newEngineTestApp(t)
+	mon, _ := seedEngineMonitor(t, app, "maint", true, 0)
+	sender := &fakeSender{}
+
+	mwc, err := app.FindCachedCollectionByNameOrId("maintenance_windows")
+	require.NoError(t, err)
+	w := core.NewRecord(mwc)
+	w.Set("monitor", mon.Id)
+	w.Set("start", "2000-01-01 00:00:00.000Z")
+	w.Set("end", "2100-01-01 00:00:00.000Z")
+	w.Set("reason", "upgrade")
+	require.NoError(t, app.Save(w))
+
+	eng := monitors.NewEngine(app, sender.Send)
+	eng.SetCheck(func(ctx context.Context, m monitors.Monitor) monitors.CheckResult {
+		return monitors.CheckResult{Status: monitors.StatusDown, Message: "boom"}
+	})
+	require.NoError(t, eng.SyncOne(mon.Id))
+	eng.Stop()
+
+	assert.Equal(t, 0, sender.count(), "maintenance must suppress notifications")
+	total, err := app.CountRecords("monitor_checks")
+	require.NoError(t, err)
+	assert.EqualValues(t, 1, total, "checks still recorded during maintenance")
+
+	active, reason, err := monitors.InMaintenance(app, mon.Id, time.Now().UTC())
+	require.NoError(t, err)
+	assert.True(t, active)
+	assert.Equal(t, "upgrade", reason)
 }

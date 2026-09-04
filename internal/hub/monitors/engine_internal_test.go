@@ -43,7 +43,7 @@ func TestEngineInternal_ResendRefiresAfterWindow(t *testing.T) {
 	require.NoError(t, app.Save(mon))
 
 	var count int
-	eng := NewEngine(app, func(userID, title, message, link string) { count++ })
+	eng := NewEngine(app, func(userID, title, message, link string, emails, webhooks []string) { count++ })
 	// Pretend the last DOWN notice was 2h ago: the next steady DOWN must
 	// renotify even without a transition.
 	eng.sentAt[mon.Id] = time.Now().Add(-2 * time.Hour)
@@ -85,7 +85,7 @@ func TestEngineInternal_NoResendWhenZero(t *testing.T) {
 	require.NoError(t, app.Save(mon))
 
 	var count int
-	eng := NewEngine(app, func(userID, title, message, link string) { count++ })
+	eng := NewEngine(app, func(userID, title, message, link string, emails, webhooks []string) { count++ })
 	mr := recordToMonitor(mon)
 	eng.persistAndNotify(mr, CheckResult{Status: StatusDown, Message: "x"}, 1, false)
 	eng.persistAndNotify(mr, CheckResult{Status: StatusDown, Message: "x"}, 2, false)

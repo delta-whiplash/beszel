@@ -685,3 +685,63 @@ func TestMonitorAPI_UptimeView(t *testing.T) {
 	}
 	view.Test(t)
 }
+
+func TestMonitorAPI_ChannelsAndMaintenance(t *testing.T) {
+	app, token := sharedAPIApp(t)
+	factory := func(testing.TB) *pbtests.TestApp { return app }
+	auth := map[string]string{"Authorization": token, "Content-Type": "application/json"}
+	hook := withMonitorRoutes()
+
+	create := pbtests.ApiScenario{
+		Name: "create with channels", Method: http.MethodPost, URL: "/api/beszel/monitors",
+		Body: strings.NewReader(`{"name":"ch","type":"ping","target":"example.com",` +
+			`"notify_emails":["ops@example.com"],"notify_webhooks":["slack://x"]}`),
+		Headers: auth, ExpectedStatus: 201, ExpectedContent: []string{`"notify_emails":["ops@example.com"]`},
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	create.Test(t)
+
+	recs, err := app.FindAllRecords("monitors")
+	require.NoError(t, err)
+	require.Len(t, recs, 1)
+	id := recs[0].Id
+
+	addWindow := pbtests.ApiScenario{
+		Name: "add maintenance", Method: http.MethodPost, URL: "/api/beszel/monitors/" + id + "/maintenance",
+		Body:    strings.NewReader(`{"reason":"upgrade","start":"2030-01-01 00:00:00.000Z","end":"2030-01-02 00:00:00.000Z"}`),
+		Headers: auth, ExpectedStatus: 201, ExpectedContent: []string{`"reason":"upgrade"`},
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	addWindow.Test(t)
+
+	badWindow := pbtests.ApiScenario{
+		Name: "reject end before start", Method: http.MethodPost, URL: "/api/beszel/monitors/" + id + "/maintenance",
+		Body:    strings.NewReader(`{"reason":"bad","start":"2030-01-02 00:00:00.000Z","end":"2030-01-01 00:00:00.000Z"}`),
+		Headers: auth, ExpectedStatus: 400, ExpectedContent: []string{"End must be after start"},
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	badWindow.Test(t)
+
+	listWindows := pbtests.ApiScenario{
+		Name: "list maintenance", Method: http.MethodGet, URL: "/api/beszel/monitors/" + id + "/maintenance",
+		Headers: auth, ExpectedStatus: 200, ExpectedContent: []string{`"reason":"upgrade"`},
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	listWindows.Test(t)
+
+	windows, err := app.FindAllRecords("maintenance_windows")
+	require.NoError(t, err)
+	require.Len(t, windows, 1)
+
+	delWindow := pbtests.ApiScenario{
+		Name: "delete maintenance", Method: http.MethodDelete,
+		URL:     "/api/beszel/monitors/" + id + "/maintenance/" + windows[0].Id,
+		Headers: auth, ExpectedStatus: 204,
+		TestAppFactory: factory, BeforeTestFunc: hook, DisableTestAppCleanup: true,
+	}
+	delWindow.Test(t)
+
+	total, err := app.CountRecords("maintenance_windows")
+	require.NoError(t, err)
+	require.EqualValues(t, 0, total)
+}

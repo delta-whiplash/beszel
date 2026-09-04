@@ -58,6 +58,8 @@ interface FormState {
 	port: string
 	upsideDown: boolean
 	notify: boolean
+	notifyEmails: string
+	notifyWebhooks: string
 }
 
 function str(v: unknown, def: string): string {
@@ -67,49 +69,54 @@ function str(v: unknown, def: string): string {
 	return String(v)
 }
 
-function initialState(): FormState {
+function initialState(monitor?: MonitorRecord): FormState {
+	const cfg = (monitor?.config ?? {}) as Record<string, unknown>
 	return {
-		name: "",
-		type: "http",
-		target: "",
-		interval: "60",
-		timeout: "10",
-		maxRetries: "2",
-		resendAfter: "0",
-		keyword: "",
-		invertKeyword: false,
-		method: "GET",
-		acceptedCodes: "200-299",
-		authType: "none",
-		authUser: "",
+		name: monitor?.name ?? "",
+		type: monitor?.type ?? "http",
+		target: monitor?.target ?? "",
+		interval: String(monitor?.interval ?? 60),
+		timeout: String(monitor?.timeout ?? 10),
+		maxRetries: String(monitor?.max_retries ?? 2),
+		resendAfter: String(monitor?.resend_after ?? 0),
+		keyword: str(cfg.keyword, ""),
+		invertKeyword: Boolean(cfg.invert_keyword ?? false),
+		method: str(cfg.method, "GET"),
+		acceptedCodes: str(cfg.accepted_status_codes, "200-299"),
+		authType: str(cfg.auth_type, "none"),
+		authUser: str(cfg.username, ""),
 		authSecret: "",
-		ignoreTls: false,
-		checkCert: true,
-		warnDays: "21",
-		critDays: "7",
-		qtype: "A",
-		resolver: "",
-		protocol: "udp",
-		expectedAnswer: "",
-		count: "3",
-		packetSize: "56",
-		port: "",
-		upsideDown: false,
-		notify: true,
+		ignoreTls: Boolean(cfg.ignore_tls_errors ?? false),
+		checkCert: cfg.check_cert_expiry === undefined ? true : Boolean(cfg.check_cert_expiry),
+		warnDays: str(cfg.warn_days, "21"),
+		critDays: str(cfg.crit_days, "7"),
+		qtype: str(cfg.qtype, "A"),
+		resolver: str(cfg.resolver, ""),
+		protocol: str(cfg.protocol, "udp"),
+		expectedAnswer: str(cfg.expected_answer, ""),
+		count: str(cfg.count, "3"),
+		packetSize: str(cfg.packet_size, "56"),
+		port: str(cfg.port, ""),
+		upsideDown: Boolean(monitor?.upside_down ?? false),
+		notify: monitor?.notify ?? true,
+		notifyEmails: (monitor?.notify_emails ?? []).join("\n"),
+		notifyWebhooks: (monitor?.notify_webhooks ?? []).join("\n"),
 	}
 }
 
 export function UptimeMonitorDialog({
 	open,
 	setOpen,
+	monitor,
 	onSaved,
 }: {
 	open: boolean
 	setOpen: (open: boolean) => void
+	monitor?: MonitorRecord
 	onSaved: () => void
 }) {
 	const { t } = useLingui()
-	const [form, setForm] = useState<FormState>(() => initialState())
+	const [form, setForm] = useState<FormState>(() => initialState(monitor))
 	const [error, setError] = useState("")
 	const [saving, setSaving] = useState(false)
 
@@ -119,10 +126,10 @@ export function UptimeMonitorDialog({
 
 	useEffect(() => {
 		if (open) {
-			setForm(initialState())
+			setForm(initialState(monitor))
 			setError("")
 		}
-	}, [open])
+	}, [open, monitor?.id])
 
 	const save = async () => {
 		setError("")
@@ -272,7 +279,12 @@ export function UptimeMonitorDialog({
 		}
 		setSaving(true)
 		try {
-			const body = {
+			const splitLines = (v: string) =>
+				v
+					.split("\n")
+					.map((s) => s.trim())
+					.filter((s) => s.length > 0)
+			const body: Record<string, unknown> = {
 				name: form.name.trim(),
 				type: form.type,
 				target: form.target.trim(),
@@ -282,10 +294,24 @@ export function UptimeMonitorDialog({
 				resend_after: resendAfter,
 				upside_down: form.upsideDown,
 				notify: form.notify,
-				users: pb.authStore.record ? [pb.authStore.record.id] : [],
 				config,
 			}
-			await pb.collection("monitors").create(body)
+			if (!monitor) {
+				body.users = pb.authStore.record ? [pb.authStore.record.id] : []
+			}
+			const emails = splitLines(form.notifyEmails)
+			const webhooks = splitLines(form.notifyWebhooks)
+			if (emails.length > 0 || monitor) {
+				body.notify_emails = emails
+			}
+			if (webhooks.length > 0 || monitor) {
+				body.notify_webhooks = webhooks
+			}
+			if (monitor) {
+				await pb.collection("monitors").update(monitor.id, body)
+			} else {
+				await pb.collection("monitors").create(body)
+			}
 			onSaved()
 		} catch (e) {
 			setError(e instanceof Error ? e.message : String(e))
@@ -304,7 +330,7 @@ export function UptimeMonitorDialog({
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle>{t`Add uptime monitor`}</DialogTitle>
+					<DialogTitle>{monitor ? t`Edit monitor` : t`Add uptime monitor`}</DialogTitle>
 					<DialogDescription>{t`External uptime check executed from the hub.`}</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4">
@@ -605,6 +631,33 @@ export function UptimeMonitorDialog({
 						<Label htmlFor="mon-notify">{t`Send notifications`}</Label>
 						<Switch id="mon-notify" checked={form.notify} onCheckedChange={(v) => set("notify", v)} />
 					</div>
+					{form.notify && (
+						<>
+							<div className="grid gap-2">
+								<Label htmlFor="mon-emails">{t`Emails (one per line, empty = all)`}</Label>
+								<Textarea
+									id="mon-emails"
+									value={form.notifyEmails}
+									onChange={(e) => set("notifyEmails", e.target.value)}
+									placeholder="ops@example.com"
+									rows={2}
+								/>
+							</div>
+							<div className="grid gap-2">
+								<Label htmlFor="mon-webhooks">{t`Webhooks (one per line, empty = all)`}</Label>
+								<Textarea
+									id="mon-webhooks"
+									value={form.notifyWebhooks}
+									onChange={(e) => set("notifyWebhooks", e.target.value)}
+									placeholder="slack://..."
+									rows={2}
+								/>
+							</div>
+						</>
+					)}
+					{monitor && (
+						<MaintenanceSection monitorId={monitor.id} />
+					)}
 					{error && <p className="text-sm text-destructive">{error}</p>}
 				</div>
 				<DialogFooter>
@@ -617,5 +670,80 @@ export function UptimeMonitorDialog({
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
+	)
+}
+
+interface MaintenanceWindow {
+	id: string
+	reason: string
+	start: string
+	end: string
+}
+
+function MaintenanceSection({ monitorId }: { monitorId: string }) {
+	const { t } = useLingui()
+	const [windows, setWindows] = useState<MaintenanceWindow[]>([])
+	const [reason, setReason] = useState("")
+	const [start, setStart] = useState("")
+	const [end, setEnd] = useState("")
+	const [error, setError] = useState("")
+
+	const load = () => {
+		pb.send<MaintenanceWindow[]>(`/api/beszel/monitors/${monitorId}/maintenance`, {}).then(setWindows).catch(() => {})
+	}
+	useEffect(load, [monitorId])
+
+	const add = async () => {
+		setError("")
+		// datetime-local gives "YYYY-MM-DDTHH:MM"; the API wants PB format.
+		const fmt = (v: string) => (v.length === 16 ? `${v.replace("T", " ")}:00.000Z` : v)
+		try {
+			await pb.send(`/api/beszel/monitors/${monitorId}/maintenance`, {
+				method: "POST",
+				body: { reason, start: fmt(start), end: fmt(end) },
+			})
+			setReason("")
+			setStart("")
+			setEnd("")
+			load()
+		} catch (e) {
+			setError(e instanceof Error ? e.message : String(e))
+		}
+	}
+
+	const remove = async (id: string) => {
+		await pb.send(`/api/beszel/monitors/${monitorId}/maintenance/${id}`, { method: "DELETE" })
+		load()
+	}
+
+	return (
+		<div className="grid gap-2 border-t pt-4">
+			<Label>{t`Maintenance windows (no notifications while active)`}</Label>
+			{windows.map((w) => (
+				<div key={w.id} className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+					<span className="truncate">
+						{w.reason || t`Maintenance`} — {w.start} → {w.end}
+					</span>
+					<Button variant="ghost" size="sm" onClick={() => remove(w.id)}>
+						{t`Remove`}
+					</Button>
+				</div>
+			))}
+			<div className="grid grid-cols-2 gap-2">
+				<Input value={start} onChange={(e) => setStart(e.target.value)} type="datetime-local" aria-label={t`Start`} />
+				<Input value={end} onChange={(e) => setEnd(e.target.value)} type="datetime-local" aria-label={t`End`} />
+			</div>
+			<div className="grid gap-2">
+				<Input
+					value={reason}
+					onChange={(e) => setReason(e.target.value)}
+					placeholder={t`Reason (optional)` as string}
+				/>
+				<Button variant="outline" size="sm" onClick={add} disabled={!start || !end}>
+					{t`Add maintenance window`}
+				</Button>
+			</div>
+			{error && <p className="text-sm text-destructive">{error}</p>}
+		</div>
 	)
 }

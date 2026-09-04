@@ -20,10 +20,10 @@ type hubLike interface {
 }
 
 type AlertManager struct {
-	hub                    hubLike
-	stopOnce               sync.Once
-	pendingAlerts          sync.Map
-	alertsCache            *AlertsCache
+	hub           hubLike
+	stopOnce      sync.Once
+	pendingAlerts sync.Map
+	alertsCache   *AlertsCache
 }
 
 type AlertMessageData struct {
@@ -33,6 +33,10 @@ type AlertMessageData struct {
 	Message  string
 	Link     string
 	LinkText string
+	// Emails/Webhooks optionally restrict delivery to a subset of the
+	// user's channels (used by uptime monitors). Nil = all channels.
+	Emails   []string
+	Webhooks []string
 }
 
 type UserNotificationSettings struct {
@@ -230,18 +234,26 @@ func (am *AlertManager) SendAlert(data AlertMessageData) error {
 	if err := record.UnmarshalJSONField("settings", &userAlertSettings); err != nil {
 		am.hub.Logger().Error("Failed to unmarshal user settings", "err", err)
 	}
-	// send alerts via webhooks
-	for _, webhook := range userAlertSettings.Webhooks {
+	// send alerts via webhooks (restricted to the requested subset, if any)
+	webhooks := userAlertSettings.Webhooks
+	if data.Webhooks != nil {
+		webhooks = intersectStrings(webhooks, data.Webhooks)
+	}
+	for _, webhook := range webhooks {
 		if err := am.SendShoutrrrAlert(webhook, data.Title, data.Message, data.Link, data.LinkText); err != nil {
 			am.hub.Logger().Error("Failed to send shoutrrr alert", "err", err)
 		}
 	}
-	// send alerts via email
-	if len(userAlertSettings.Emails) == 0 {
+	// send alerts via email (restricted to the requested subset, if any)
+	emails := userAlertSettings.Emails
+	if data.Emails != nil {
+		emails = intersectStrings(emails, data.Emails)
+	}
+	if len(emails) == 0 {
 		return nil
 	}
 	addresses := []mail.Address{}
-	for _, email := range userAlertSettings.Emails {
+	for _, email := range emails {
 		addresses = append(addresses, mail.Address{Address: email})
 	}
 	message := mailer.Message{
@@ -259,6 +271,22 @@ func (am *AlertManager) SendAlert(data AlertMessageData) error {
 	}
 	am.hub.Logger().Info("Sent email alert", "to", message.To, "subj", message.Subject)
 	return nil
+}
+
+// intersectStrings keeps configured channels present in the requested
+// subset, preserving configured order. A nil subset is handled by callers.
+func intersectStrings(configured, subset []string) []string {
+	allowed := make(map[string]bool, len(subset))
+	for _, s := range subset {
+		allowed[s] = true
+	}
+	out := make([]string, 0, len(configured))
+	for _, c := range configured {
+		if allowed[c] {
+			out = append(out, c)
+		}
+	}
+	return out
 }
 
 // SendShoutrrrAlert sends an alert via a Shoutrrr URL

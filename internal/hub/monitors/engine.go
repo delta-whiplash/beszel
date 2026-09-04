@@ -12,9 +12,10 @@ import (
 )
 
 // AlertSender delivers transition notifications. It mirrors
-// alerts.AlertManager.SendAlert over (userID, title, message, link) so the
+// alerts.AlertManager.SendAlert over (userID, title, message, link) plus the
+// per-monitor channel subsets (nil = all of the user's channels), so the
 // engine stays decoupled from the alerts package (wired in hub.go).
-type AlertSender func(userID, title, message, link string)
+type AlertSender func(userID, title, message, link string, emails, webhooks []string)
 
 // Engine connects the scheduler, persistence and notifications for the
 // monitors stored in PocketBase.
@@ -244,6 +245,13 @@ func (e *Engine) persistAndNotify(mr MonitorRecord, res CheckResult, failures in
 		return
 	}
 	now := time.Now()
+	// Planned maintenance: checks are recorded but never notify.
+	if active, reason, err := InMaintenance(e.app, mr.ID, now); err != nil {
+		slog.Error("monitors: maintenance lookup failed", "monitor", mr.Name, "err", err)
+	} else if active {
+		slog.Debug("monitors: notification suppressed by maintenance", "monitor", mr.Name, "reason", reason)
+		return
+	}
 	e.mu.Lock()
 	if _, ok := e.downSince[mr.ID]; !ok && res.Status == StatusDown {
 		e.downSince[mr.ID] = now
@@ -289,7 +297,7 @@ func (e *Engine) persistAndNotify(mr MonitorRecord, res CheckResult, failures in
 		}
 	}
 	for _, userID := range mr.UserIDs {
-		e.send(userID, title, message, e.link(mr.ID))
+		e.send(userID, title, message, e.link(mr.ID), mr.NotifyEmails, mr.NotifyWebhooks)
 	}
 }
 

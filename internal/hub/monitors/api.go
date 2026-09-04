@@ -67,21 +67,26 @@ func RegisterRoutes(se *core.ServeEvent) {
 	g.DELETE("/{id}", api.delete)
 	g.GET("/{id}/checks", api.checks)
 	g.POST("/{id}/test", api.test)
+	g.GET("/{id}/maintenance", api.maintenanceList)
+	g.POST("/{id}/maintenance", api.maintenanceCreate)
+	g.DELETE("/{id}/maintenance/{windowId}", api.maintenanceDelete)
 }
 
 type monitorInput struct {
-	Name        string         `json:"name"`
-	Type        string         `json:"type"`
-	Target      string         `json:"target"`
-	Interval    *int           `json:"interval"`
-	Timeout     *int           `json:"timeout"`
-	MaxRetries  *int           `json:"max_retries"`
-	UpsideDown  *bool          `json:"upside_down"`
-	Paused      *bool          `json:"paused"`
-	Notify      *bool          `json:"notify"`
-	ResendAfter *int           `json:"resend_after"`
-	Users       []string       `json:"users"`
-	Config      map[string]any `json:"config"`
+	Name           string         `json:"name"`
+	Type           string         `json:"type"`
+	Target         string         `json:"target"`
+	Interval       *int           `json:"interval"`
+	Timeout        *int           `json:"timeout"`
+	MaxRetries     *int           `json:"max_retries"`
+	UpsideDown     *bool          `json:"upside_down"`
+	Paused         *bool          `json:"paused"`
+	Notify         *bool          `json:"notify"`
+	ResendAfter    *int           `json:"resend_after"`
+	Users          []string       `json:"users"`
+	NotifyEmails   []string       `json:"notify_emails"`
+	NotifyWebhooks []string       `json:"notify_webhooks"`
+	Config         map[string]any `json:"config"`
 }
 
 func intOr(v *int, def int) int {
@@ -209,8 +214,11 @@ func monitorToResponse(rec *core.Record) map[string]any {
 		"timeout": rec.GetFloat("timeout"), "max_retries": rec.GetFloat("max_retries"),
 		"upside_down": rec.GetBool("upside_down"), "paused": rec.GetBool("paused"),
 		"notify": rec.GetBool("notify"), "resend_after": rec.GetFloat("resend_after"),
-		"users": rec.GetStringSlice("users"), "config": redactConfig(cfg),
-		"status": rec.GetString("status"), "last_check": rec.GetDateTime("last_check"),
+		"users":           rec.GetStringSlice("users"),
+		"notify_emails":   jsonStringSlice(rec, "notify_emails"),
+		"notify_webhooks": jsonStringSlice(rec, "notify_webhooks"),
+		"config":          redactConfig(cfg),
+		"status":          rec.GetString("status"), "last_check": rec.GetDateTime("last_check"),
 		"last_latency_ms": rec.GetFloat("last_latency_ms"), "uptime_24h": rec.GetFloat("uptime_24h"),
 		"cert_days": rec.GetFloat("cert_days"),
 		"created":   rec.GetDateTime("created"), "updated": rec.GetDateTime("updated"),
@@ -326,6 +334,12 @@ func (a *MonitorAPI) create(e *core.RequestEvent) error {
 	rec.Set("notify", boolOr(in.Notify, true))
 	rec.Set("resend_after", intOr(in.ResendAfter, 0))
 	rec.Set("users", in.Users)
+	if in.NotifyEmails != nil {
+		rec.Set("notify_emails", in.NotifyEmails)
+	}
+	if in.NotifyWebhooks != nil {
+		rec.Set("notify_webhooks", in.NotifyWebhooks)
+	}
 	if in.Config == nil {
 		in.Config = map[string]any{}
 	}
@@ -413,6 +427,12 @@ func (a *MonitorAPI) update(e *core.RequestEvent) error {
 	}
 	if in.Users != nil {
 		rec.Set("users", in.Users)
+	}
+	if in.NotifyEmails != nil {
+		rec.Set("notify_emails", in.NotifyEmails)
+	}
+	if in.NotifyWebhooks != nil {
+		rec.Set("notify_webhooks", in.NotifyWebhooks)
 	}
 	if in.Config != nil {
 		// Shallow top-level merge: nested objects (e.g. headers) are
@@ -565,6 +585,93 @@ func (a *MonitorAPI) test(e *core.RequestEvent) error {
 	return e.JSON(http.StatusOK, out)
 }
 
+// maintenanceList returns planned windows for a monitor, newest first.
+func (a *MonitorAPI) maintenanceList(e *core.RequestEvent) error {
+	rec, err := a.findMonitor(e, e.Request.PathValue("id"))
+	if err != nil {
+		return err
+	}
+	rows, err := a.app.FindRecordsByFilter("maintenance_windows", "monitor = {:mon}", "-start", 100, 0, dbx.Params{"mon": rec.Id})
+	if err != nil {
+		return e.InternalServerError("failed to load maintenance windows", err)
+	}
+	out := make([]map[string]any, 0, len(rows))
+	for _, r := range rows {
+		out = append(out, map[string]any{
+			"id": r.Id, "reason": r.GetString("reason"),
+			"start": r.GetDateTime("start"), "end": r.GetDateTime("end"),
+		})
+	}
+	return e.JSON(http.StatusOK, out)
+}
+
+type maintenanceInput struct {
+	Reason string `json:"reason"`
+	Start  string `json:"start"`
+	End    string `json:"end"`
+}
+
+// maintenanceCreate adds a planned window. Start/end accept PocketBase
+// datetime strings; end must be after start.
+func (a *MonitorAPI) maintenanceCreate(e *core.RequestEvent) error {
+	if e.Auth.GetString("role") == "readonly" {
+		return e.ForbiddenError("readonly users cannot manage maintenance", nil)
+	}
+	rec, err := a.findMonitor(e, e.Request.PathValue("id"))
+	if err != nil {
+		return err
+	}
+	var in maintenanceInput
+	if err := e.BindBody(&in); err != nil {
+		return e.BadRequestError("invalid body", err)
+	}
+	start, err := time.Parse("2006-01-02 15:04:05.000Z", in.Start)
+	if err != nil {
+		return e.BadRequestError("invalid start datetime, use YYYY-MM-DD HH:MM:SS", nil)
+	}
+	end, err := time.Parse("2006-01-02 15:04:05.000Z", in.End)
+	if err != nil {
+		return e.BadRequestError("invalid end datetime, use YYYY-MM-DD HH:MM:SS", nil)
+	}
+	if !end.After(start) {
+		return e.BadRequestError("end must be after start", nil)
+	}
+	col, err := a.app.FindCachedCollectionByNameOrId("maintenance_windows")
+	if err != nil {
+		return e.InternalServerError("", err)
+	}
+	w := core.NewRecord(col)
+	w.Set("monitor", rec.Id)
+	w.Set("reason", in.Reason)
+	w.Set("start", start.UTC())
+	w.Set("end", end.UTC())
+	if err := a.app.Save(w); err != nil {
+		return e.BadRequestError("failed to save maintenance window", err)
+	}
+	return e.JSON(http.StatusCreated, map[string]any{
+		"id": w.Id, "reason": w.GetString("reason"),
+		"start": w.GetDateTime("start"), "end": w.GetDateTime("end"),
+	})
+}
+
+func (a *MonitorAPI) maintenanceDelete(e *core.RequestEvent) error {
+	if e.Auth.GetString("role") == "readonly" {
+		return e.ForbiddenError("readonly users cannot manage maintenance", nil)
+	}
+	rec, err := a.findMonitor(e, e.Request.PathValue("id"))
+	if err != nil {
+		return err
+	}
+	w, err := a.app.FindRecordById("maintenance_windows", e.Request.PathValue("windowId"))
+	if err != nil || w.GetString("monitor") != rec.Id {
+		return e.NotFoundError("maintenance window not found", nil)
+	}
+	if err := a.app.Delete(w); err != nil {
+		return e.InternalServerError("", err)
+	}
+	return e.NoContent(http.StatusNoContent)
+}
+
 func (a *MonitorAPI) summary(e *core.RequestEvent) error {
 	recs, err := a.app.FindAllRecords("monitors")
 	if err != nil {
@@ -658,10 +765,14 @@ func (a *MonitorAPI) uptime(e *core.RequestEvent) error {
 		if total > 0 {
 			ratio = float64(up) / float64(total) * 100
 		}
-		out = append(out, map[string]any{
+		entry := map[string]any{
 			"id": rec.Id, "name": rec.GetString("name"), "status": st,
 			"uptime": ratio, "days": buckets,
-		})
+		}
+		if active, reason, err := InMaintenance(a.app, rec.Id, now); err == nil && active {
+			entry["maintenance"] = reason
+		}
+		out = append(out, entry)
 	}
 	status := "operational"
 	if anyDown {

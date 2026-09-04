@@ -23,8 +23,38 @@ type MonitorRecord struct {
 	ResendAfter        int
 	Status             string
 	UserIDs            []string
+	NotifyEmails       []string
+	NotifyWebhooks     []string
 	Config             map[string]any
 	ConsecutiveFailure int
+}
+
+// InMaintenance reports whether a monitor is inside a planned maintenance
+// window, with the window reason. Checks keep running; only notifications
+// are suppressed.
+func InMaintenance(app core.App, monitorID string, now time.Time) (bool, string, error) {
+	type window struct {
+		Start  string `db:"start"`
+		End    string `db:"end"`
+		Reason string `db:"reason"`
+	}
+	var rows []window
+	err := app.DB().NewQuery("SELECT start, end, reason FROM maintenance_windows WHERE monitor = {:mon}").
+		Bind(dbx.Params{"mon": monitorID}).All(&rows)
+	if err != nil {
+		return false, "", err
+	}
+	for _, w := range rows {
+		start, err1 := time.Parse("2006-01-02 15:04:05.000Z", w.Start)
+		end, err2 := time.Parse("2006-01-02 15:04:05.000Z", w.End)
+		if err1 != nil || err2 != nil {
+			continue
+		}
+		if !now.Before(start) && now.Before(end) {
+			return true, w.Reason, nil
+		}
+	}
+	return false, "", nil
 }
 
 // ToMonitor converts a record to a scheduler Monitor.
@@ -67,6 +97,15 @@ func LoadMonitors(app core.App) ([]MonitorRecord, error) {
 	return out, nil
 }
 
+// jsonStringSlice reads a JSON string-array field, tolerating null/absent.
+func jsonStringSlice(rec *core.Record, field string) []string {
+	var out []string
+	if err := rec.UnmarshalJSONField(field, &out); err != nil {
+		return nil
+	}
+	return out
+}
+
 func recordToMonitor(rec *core.Record) MonitorRecord {
 	m := MonitorRecord{
 		ID: rec.Id, Name: rec.GetString("name"),
@@ -74,6 +113,8 @@ func recordToMonitor(rec *core.Record) MonitorRecord {
 		UpsideDown: rec.GetBool("upside_down"), Paused: rec.GetBool("paused"),
 		Notify: rec.GetBool("notify"), Status: rec.GetString("status"),
 		UserIDs:            rec.GetStringSlice("users"),
+		NotifyEmails:       jsonStringSlice(rec, "notify_emails"),
+		NotifyWebhooks:     jsonStringSlice(rec, "notify_webhooks"),
 		ConsecutiveFailure: int(rec.GetFloat("consecutive_failures")),
 	}
 	m.ResendAfter = int(rec.GetFloat("resend_after"))

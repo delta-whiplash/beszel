@@ -632,6 +632,8 @@ export interface MonitorRecord extends RecordModel {
 	notify: boolean
 	resend_after: number
 	users: string[]
+	notify_emails: string[]
+	notify_webhooks: string[]
 	config: Record<string, any>
 	status: MonitorStatus
 	last_check: string
