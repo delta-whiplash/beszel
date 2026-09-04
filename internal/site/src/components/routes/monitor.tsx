@@ -11,6 +11,7 @@ import Spinner from "@/components/spinner"
 import { $router, Link } from "@/components/router"
 import { getPagePath } from "@nanostores/router"
 import { pb } from "@/lib/api"
+import { MONITOR_STATUS_STYLES } from "@/lib/monitor-status"
 import { formatShortDate } from "@/lib/utils"
 import type { MonitorCheckRecord, MonitorRecord } from "@/types"
 

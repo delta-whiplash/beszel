@@ -30,7 +30,7 @@ export const MonitorsSummary = memo(() => {
 					<span className={`font-medium ${MONITOR_STATUS_TEXT.down}`}>{t`${summary.counts.down} down`}</span>
 				)}
 				{summary.counts.warn > 0 && <span className={MONITOR_STATUS_TEXT.warn}>{t`${summary.counts.warn} warning`}</span>}
-				{summary.counts.paused > 0 && <span className="text-muted-foreground">{t`${summary.counts.paused} paused`}</span>}
+				{summary.counts.paused > 0 && <span className={MONITOR_STATUS_TEXT.paused}>{t`${summary.counts.paused} paused`}</span>}
 			</CardContent>
 		</Card>
 	)

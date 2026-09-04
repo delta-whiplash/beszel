@@ -6,12 +6,13 @@ import Spinner from "@/components/spinner"
 import { $router, Link } from "@/components/router"
 import { getPagePath } from "@nanostores/router"
 import { pb } from "@/lib/api"
-import { MONITOR_STATUS_TEXT } from "@/lib/monitor-status"
+import { MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
+import type { MonitorStatus } from "@/types"
 
 interface UptimeMonitor {
 	id: string
 	name: string
-	status: string
+	status: MonitorStatus
 	uptime: number
 	days: string[]
 }
@@ -21,13 +22,6 @@ interface UptimeResponse {
 	monitors: UptimeMonitor[]
 }
 
-const BAR_COLORS: Record<string, string> = {
-	up: "bg-green-500",
-	down: "bg-red-500",
-	warn: "bg-yellow-500",
-	"": "bg-muted",
-}
-
 function DayBars({ days }: { days: string[] }) {
 	return (
 		<div className="flex items-end gap-[3px]" aria-hidden>
@@ -35,7 +29,7 @@ function DayBars({ days }: { days: string[] }) {
 				<div
 					key={i}
 					title={d || "no data"}
-					className={`w-[4px] rounded-[2px] ${BAR_COLORS[d] ?? BAR_COLORS[""]} ${d === "down" ? "h-7" : d === "warn" ? "h-6" : d === "up" ? "h-5" : "h-4 opacity-40"}`}
+					className={`w-[4px] rounded-[2px] ${UPTIME_DAY_STYLES[d] ?? UPTIME_DAY_STYLES[""]} ${d === "down" ? "h-7" : d === "warn" ? "h-6" : d === "up" ? "h-5" : "h-4 opacity-40"}`}
 				/>
 			))}
 		</div>
@@ -119,7 +113,7 @@ export default memo(() => {
 											{m.name}
 										</Link>
 										<span
-											className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[m.status as keyof typeof MONITOR_STATUS_TEXT] ?? "text-green-600"}`}
+											className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[m.status] ?? MONITOR_STATUS_TEXT.up}`}
 										>
 											{m.status === "down"
 												? t`Down`

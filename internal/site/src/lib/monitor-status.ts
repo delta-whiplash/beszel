@@ -17,3 +17,11 @@ export const MONITOR_STATUS_TEXT: Record<MonitorStatus, string> = {
 	paused: "text-muted-foreground",
 	pending: "text-yellow-600",
 }
+
+/** Day-bucket background per check status (uptime bars; empty = no data). */
+export const UPTIME_DAY_STYLES: Record<string, string> = {
+	up: "bg-green-500",
+	down: "bg-red-500",
+	warn: "bg-yellow-500",
+	"": "bg-muted",
+}
