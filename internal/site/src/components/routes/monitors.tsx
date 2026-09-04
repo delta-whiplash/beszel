@@ -25,16 +25,9 @@ import { getPagePath } from "@nanostores/router"
 import { $router, Link } from "@/components/router"
 import { isReadOnlyUser, pb } from "@/lib/api"
 import { $monitors, init } from "@/lib/monitors"
-import type { MonitorRecord, MonitorStatus } from "@/types"
+import type { MonitorRecord } from "@/types"
+import { MONITOR_STATUS_STYLES } from "@/lib/monitor-status"
 import { MonitorDialog } from "./monitor-dialog"
-
-const STATUS_STYLES: Record<MonitorStatus, string> = {
-	up: "bg-green-500",
-	down: "bg-red-500",
-	warn: "bg-yellow-500",
-	paused: "bg-primary/40",
-	pending: "bg-yellow-500",
-}
 
 const TYPE_LABELS: Record<string, string> = {
 	http: "HTTP",
@@ -83,7 +76,7 @@ function MonitorCard({ monitor, onEdit }: { monitor: MonitorRecord; onEdit: (m: 
 			<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 				<CardTitle className="text-base font-medium">{title}</CardTitle>
 				<div className="flex items-center gap-2">
-					<Badge className={STATUS_STYLES[monitor.status]}>{monitor.status}</Badge>
+					<Badge className={MONITOR_STATUS_STYLES[monitor.status]}>{monitor.status}</Badge>
 					<Badge variant="outline">{TYPE_LABELS[monitor.type] ?? monitor.type}</Badge>
 				</div>
 			</CardHeader>

@@ -6,6 +6,7 @@ import Spinner from "@/components/spinner"
 import { $router, Link } from "@/components/router"
 import { getPagePath } from "@nanostores/router"
 import { pb } from "@/lib/api"
+import { MONITOR_STATUS_TEXT } from "@/lib/monitor-status"
 
 interface UptimeMonitor {
 	id: string
@@ -118,7 +119,7 @@ export default memo(() => {
 											{m.name}
 										</Link>
 										<span
-											className={`shrink-0 text-xs font-medium ${m.status === "down" ? "text-red-600" : m.status === "warn" ? "text-yellow-600" : "text-green-600"}`}
+											className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[m.status as keyof typeof MONITOR_STATUS_TEXT] ?? "text-green-600"}`}
 										>
 											{m.status === "down"
 												? t`Down`

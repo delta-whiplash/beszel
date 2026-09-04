@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { $router, Link } from "@/components/router"
 import { getPagePath } from "@nanostores/router"
 import { $monitorsSummary } from "@/lib/monitors"
+import { MONITOR_STATUS_TEXT } from "@/lib/monitor-status"
 
 export const MonitorsSummary = memo(() => {
 	const { t } = useLingui()
@@ -23,12 +24,12 @@ export const MonitorsSummary = memo(() => {
 					{t`Monitors`}
 				</Link>
 				{summary.counts.up > 0 && (
-					<span className="text-green-600">{t`${summary.counts.up} up`}</span>
+					<span className={MONITOR_STATUS_TEXT.up}>{t`${summary.counts.up} up`}</span>
 				)}
 				{summary.counts.down > 0 && (
-					<span className="font-medium text-red-600">{t`${summary.counts.down} down`}</span>
+					<span className={`font-medium ${MONITOR_STATUS_TEXT.down}`}>{t`${summary.counts.down} down`}</span>
 				)}
-				{summary.counts.warn > 0 && <span className="text-yellow-600">{t`${summary.counts.warn} warning`}</span>}
+				{summary.counts.warn > 0 && <span className={MONITOR_STATUS_TEXT.warn}>{t`${summary.counts.warn} warning`}</span>}
 				{summary.counts.paused > 0 && <span className="text-muted-foreground">{t`${summary.counts.paused} paused`}</span>}
 			</CardContent>
 		</Card>

@@ -6,23 +6,17 @@ import { ActiveAlerts } from "@/components/active-alerts"
 import { FooterRepoLink } from "@/components/footer-repo-link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Spinner from "@/components/spinner"
 import { $router, Link } from "@/components/router"
 import { getPagePath } from "@nanostores/router"
 import { pb } from "@/lib/api"
-import type { MonitorCheckRecord, MonitorRecord, MonitorStatus } from "@/types"
-
-const STATUS_STYLES: Record<MonitorStatus, string> = {
-	up: "bg-green-500",
-	down: "bg-red-500",
-	warn: "bg-yellow-500",
-	paused: "bg-primary/40",
-	pending: "bg-yellow-500",
-}
+import { formatShortDate } from "@/lib/utils"
+import type { MonitorCheckRecord, MonitorRecord } from "@/types"
 
 function formatTime(iso: string): string {
 	const d = new Date(iso)
-	return Number.isNaN(d.getTime()) ? iso : d.toLocaleString()
+	return Number.isNaN(d.getTime()) ? iso : formatShortDate(iso)
 }
 
 export default memo(({ id }: { id: string }) => {
@@ -95,7 +89,7 @@ export default memo(({ id }: { id: string }) => {
 					</Link>
 					<span className="text-sm text-muted-foreground">/</span>
 					<h1 className="text-xl font-semibold">{monitor.name}</h1>
-					<Badge className={STATUS_STYLES[monitor.status]}>{monitor.status}</Badge>
+					<Badge className={MONITOR_STATUS_STYLES[monitor.status]}>{monitor.status}</Badge>
 				</div>
 				<div className="grid gap-4 md:grid-cols-3">
 					<Card>
@@ -142,8 +136,14 @@ export default memo(({ id }: { id: string }) => {
 									<CartesianGrid strokeDasharray="3 3" />
 									<XAxis dataKey="time" tick={false} />
 									<YAxis width={40} />
-									<Tooltip />
-									<Area type="monotone" dataKey="ms" stroke="#22c55e" fill="#22c55e33" />
+									<Tooltip
+										contentStyle={{
+											backgroundColor: "var(--background)",
+											borderColor: "var(--border)",
+											borderRadius: "var(--radius)",
+										}}
+									/>
+									<Area type="monotone" dataKey="ms" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.2} />
 								</AreaChart>
 							</ResponsiveContainer>
 						</CardContent>
@@ -162,28 +162,28 @@ export default memo(({ id }: { id: string }) => {
 							<p className="py-4 text-center text-sm text-muted-foreground">{t`No checks recorded yet.`}</p>
 						) : (
 							<div className="max-h-96 overflow-auto">
-								<table className="w-full text-sm">
-									<thead className="sticky top-0 bg-background text-left text-muted-foreground">
-										<tr>
-											<th className="py-1 pr-2 font-medium">{t`Time`}</th>
-											<th className="py-1 pr-2 font-medium">{t`Status`}</th>
-											<th className="py-1 pr-2 font-medium">{t`Latency`}</th>
-											<th className="py-1 font-medium">{t`Message`}</th>
-										</tr>
-									</thead>
-									<tbody>
+								<Table>
+									<TableHeader className="sticky top-0 bg-background">
+										<TableRow>
+											<TableHead>{t`Time`}</TableHead>
+											<TableHead>{t`Status`}</TableHead>
+											<TableHead>{t`Latency`}</TableHead>
+											<TableHead>{t`Message`}</TableHead>
+										</TableRow>
+									</TableHeader>
+									<TableBody>
 										{checks.map((c) => (
-											<tr key={c.id} className="border-t">
-												<td className="py-1 pr-2 whitespace-nowrap text-xs">{formatTime(c.created)}</td>
-												<td className="py-1 pr-2">
-													<Badge className={STATUS_STYLES[c.status]}>{c.status}</Badge>
-												</td>
-												<td className="py-1 pr-2">{c.latency_ms > 0 ? `${c.latency_ms.toFixed(0)} ms` : "—"}</td>
-												<td className="py-1 text-xs text-muted-foreground">{c.message}</td>
-											</tr>
+											<TableRow key={c.id}>
+												<TableCell className="whitespace-nowrap text-xs">{formatTime(c.created)}</TableCell>
+												<TableCell>
+													<Badge className={MONITOR_STATUS_STYLES[c.status]}>{c.status}</Badge>
+												</TableCell>
+												<TableCell>{c.latency_ms > 0 ? `${c.latency_ms.toFixed(0)} ms` : "—"}</TableCell>
+												<TableCell className="text-xs text-muted-foreground">{c.message}</TableCell>
+											</TableRow>
 										))}
-									</tbody>
-								</table>
+									</TableBody>
+								</Table>
 							</div>
 						)}
 					</CardContent>
