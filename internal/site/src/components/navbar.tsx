@@ -2,6 +2,7 @@ import { t } from "@lingui/core/macro"
 import { Trans } from "@lingui/react/macro"
 import { getPagePath } from "@nanostores/router"
 import {
+	ActivityIcon,
 	HeartPulseIcon,
 	ContainerIcon,
 	DatabaseBackupIcon,

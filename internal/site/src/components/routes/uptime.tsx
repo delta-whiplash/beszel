@@ -29,12 +29,12 @@ const BAR_COLORS: Record<string, string> = {
 
 function DayBars({ days }: { days: string[] }) {
 	return (
-		<div className="flex items-end gap-[2px]" aria-hidden>
+		<div className="flex items-end gap-[3px]" aria-hidden>
 			{days.map((d, i) => (
 				<div
 					key={i}
 					title={d || "no data"}
-					className={`w-[3px] rounded-sm ${BAR_COLORS[d] ?? BAR_COLORS[""]} ${d === "down" ? "h-6" : d === "warn" ? "h-5" : d === "up" ? "h-4" : "h-3 opacity-50"}`}
+					className={`w-[4px] rounded-[2px] ${BAR_COLORS[d] ?? BAR_COLORS[""]} ${d === "down" ? "h-7" : d === "warn" ? "h-6" : d === "up" ? "h-5" : "h-4 opacity-40"}`}
 				/>
 			))}
 		</div>
