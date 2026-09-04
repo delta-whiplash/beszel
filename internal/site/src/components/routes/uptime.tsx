@@ -3,7 +3,6 @@ import { memo, useEffect, useState } from "react"
 import { FooterRepoLink } from "@/components/footer-repo-link"
 import { UptimeMonitorDialog } from "@/components/uptime-monitor-dialog"
 import { Badge } from "@/components/ui/badge"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {

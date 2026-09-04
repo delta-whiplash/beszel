@@ -24,6 +24,7 @@ msgstr ""
 
 #. placeholder {0}: m.uptime.toFixed(2)
 #: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 msgid "{0} % uptime"
 msgstr ""
 
@@ -162,6 +163,10 @@ msgstr "الحالة النشطة"
 #: src/components/routes/settings/quiet-hours.tsx
 msgid "Add {foo}"
 msgstr "إضافة {foo}"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Add maintenance window"
+msgstr ""
 
 #: src/components/routes/uptime.tsx
 msgid "Add monitor"
@@ -848,9 +853,11 @@ msgstr "تعديل"
 msgid "Edit {foo}"
 msgstr "إضافة {foo}"
 
-#: src/components/routes/monitor-dialog.tsx
-#~ msgid "Edit monitor"
-#~ msgstr ""
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Edit monitor"
+msgstr ""
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/forgot-pass-form.tsx
@@ -862,10 +869,18 @@ msgstr "البريد الإشباكي"
 msgid "Email notifications"
 msgstr "إشعارات البريد الإشباكي"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Emails (one per line, empty = all)"
+msgstr ""
+
 #. Context: Battery state
 #: src/lib/i18n.ts
 msgid "Empty"
 msgstr "فارغة"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "End"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -1087,6 +1102,7 @@ msgid "GPU Usage"
 msgstr "استخدام وحدة معالجة الرسوميات"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "Grid"
 msgstr "شبكة"
@@ -1236,6 +1252,10 @@ msgstr "دورة الحياة"
 msgid "limit"
 msgstr "الحد"
 
+#: src/components/routes/uptime.tsx
+msgid "List"
+msgstr ""
+
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "Load Average"
 msgstr "متوسط التحميل"
@@ -1292,6 +1312,16 @@ msgstr "هل تبحث عن مكان لإنشاء التنبيهات؟ انقر �
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Main PID"
 msgstr "معرف العملية الرئيسي"
+
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance"
+msgstr ""
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance windows (no notifications while active)"
+msgstr ""
 
 #: src/components/routes/settings/layout.tsx
 msgid "Manage display and notification preferences."
@@ -1411,6 +1441,7 @@ msgstr "لا"
 #~ msgid "No checks recorded yet."
 #~ msgstr ""
 
+#: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 msgid "No data yet"
 msgstr ""
@@ -1732,6 +1763,10 @@ msgstr "قراءة"
 msgid "Read errors"
 msgstr "أخطاء القراءة"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Reason (optional)"
+msgstr ""
+
 #: src/components/routes/system/charts/network-charts.tsx
 msgid "Received"
 msgstr "تم الاستلام"
@@ -1754,6 +1789,10 @@ msgstr "تحديث"
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Relationships"
 msgstr "العلاقات"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Remove"
+msgstr ""
 
 #: src/components/login/login.tsx
 msgid "Request a one-time password"
@@ -1967,6 +2006,10 @@ msgstr "إعدادات SMTP"
 #: src/components/systems-table/systems-table.tsx
 msgid "Sort By"
 msgstr "الترتيب حسب"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Start"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -2389,6 +2432,7 @@ msgstr "الاستخدام"
 msgid "Value"
 msgstr "القيمة"
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "View"
 msgstr "عرض"
@@ -2438,6 +2482,10 @@ msgstr ""
 #: src/components/routes/settings/notifications.tsx
 msgid "Webhook / Push notifications"
 msgstr "إشعارات Webhook / Push"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Webhooks (one per line, empty = all)"
+msgstr ""
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "When enabled, this token allows agents to self-register without prior system creation."

@@ -24,6 +24,7 @@ msgstr ""
 
 #. placeholder {0}: m.uptime.toFixed(2)
 #: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 msgid "{0} % uptime"
 msgstr ""
 
@@ -162,6 +163,10 @@ msgstr "활성 상태"
 #: src/components/routes/settings/quiet-hours.tsx
 msgid "Add {foo}"
 msgstr "{foo} 추가"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Add maintenance window"
+msgstr ""
 
 #: src/components/routes/uptime.tsx
 msgid "Add monitor"
@@ -848,9 +853,11 @@ msgstr "수정"
 msgid "Edit {foo}"
 msgstr "{foo} 수정"
 
-#: src/components/routes/monitor-dialog.tsx
-#~ msgid "Edit monitor"
-#~ msgstr ""
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Edit monitor"
+msgstr ""
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/forgot-pass-form.tsx
@@ -862,10 +869,18 @@ msgstr "이메일"
 msgid "Email notifications"
 msgstr "이메일 알림"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Emails (one per line, empty = all)"
+msgstr ""
+
 #. Context: Battery state
 #: src/lib/i18n.ts
 msgid "Empty"
 msgstr "빔"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "End"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -1087,6 +1102,7 @@ msgid "GPU Usage"
 msgstr "GPU 사용량"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "Grid"
 msgstr "그리드"
@@ -1236,6 +1252,10 @@ msgstr "생명주기"
 msgid "limit"
 msgstr "제한"
 
+#: src/components/routes/uptime.tsx
+msgid "List"
+msgstr ""
+
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "Load Average"
 msgstr "부하 평균"
@@ -1292,6 +1312,16 @@ msgstr "알림을 생성하려 하시나요? 시스템 테이블의 종 <0/> 아
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Main PID"
 msgstr "주 PID"
+
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance"
+msgstr ""
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance windows (no notifications while active)"
+msgstr ""
 
 #: src/components/routes/settings/layout.tsx
 msgid "Manage display and notification preferences."
@@ -1411,6 +1441,7 @@ msgstr "아니오"
 #~ msgid "No checks recorded yet."
 #~ msgstr ""
 
+#: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 msgid "No data yet"
 msgstr ""
@@ -1732,6 +1763,10 @@ msgstr "읽기"
 msgid "Read errors"
 msgstr "읽기 오류"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Reason (optional)"
+msgstr ""
+
 #: src/components/routes/system/charts/network-charts.tsx
 msgid "Received"
 msgstr "수신됨"
@@ -1754,6 +1789,10 @@ msgstr "새로고침"
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Relationships"
 msgstr "관계"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Remove"
+msgstr ""
 
 #: src/components/login/login.tsx
 msgid "Request a one-time password"
@@ -1967,6 +2006,10 @@ msgstr "SMTP 설정"
 #: src/components/systems-table/systems-table.tsx
 msgid "Sort By"
 msgstr "정렬 기준"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Start"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -2389,6 +2432,7 @@ msgstr "사용률"
 msgid "Value"
 msgstr "값"
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "View"
 msgstr "보기"
@@ -2438,6 +2482,10 @@ msgstr ""
 #: src/components/routes/settings/notifications.tsx
 msgid "Webhook / Push notifications"
 msgstr "Webhook / 푸시 알림"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Webhooks (one per line, empty = all)"
+msgstr ""
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "When enabled, this token allows agents to self-register without prior system creation."

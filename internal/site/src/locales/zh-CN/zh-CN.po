@@ -24,6 +24,7 @@ msgstr ""
 
 #. placeholder {0}: m.uptime.toFixed(2)
 #: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 msgid "{0} % uptime"
 msgstr ""
 
@@ -162,6 +163,10 @@ msgstr "活动状态"
 #: src/components/routes/settings/quiet-hours.tsx
 msgid "Add {foo}"
 msgstr "添加 {foo}"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Add maintenance window"
+msgstr ""
 
 #: src/components/routes/uptime.tsx
 msgid "Add monitor"
@@ -848,9 +853,11 @@ msgstr "编辑"
 msgid "Edit {foo}"
 msgstr "编辑 {foo}"
 
-#: src/components/routes/monitor-dialog.tsx
-#~ msgid "Edit monitor"
-#~ msgstr ""
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Edit monitor"
+msgstr ""
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/forgot-pass-form.tsx
@@ -862,10 +869,18 @@ msgstr "电子邮件"
 msgid "Email notifications"
 msgstr "电子邮件通知"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Emails (one per line, empty = all)"
+msgstr ""
+
 #. Context: Battery state
 #: src/lib/i18n.ts
 msgid "Empty"
 msgstr "空电"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "End"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -1087,6 +1102,7 @@ msgid "GPU Usage"
 msgstr "GPU 使用率"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "Grid"
 msgstr "网格"
@@ -1236,6 +1252,10 @@ msgstr "生命周期"
 msgid "limit"
 msgstr "限制"
 
+#: src/components/routes/uptime.tsx
+msgid "List"
+msgstr ""
+
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "Load Average"
 msgstr "系统负载"
@@ -1292,6 +1312,16 @@ msgstr "在寻找创建警报的位置吗？点击系统表中的铃铛<0/>图�
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Main PID"
 msgstr "主进程 ID"
+
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance"
+msgstr ""
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance windows (no notifications while active)"
+msgstr ""
 
 #: src/components/routes/settings/layout.tsx
 msgid "Manage display and notification preferences."
@@ -1411,6 +1441,7 @@ msgstr "否"
 #~ msgid "No checks recorded yet."
 #~ msgstr ""
 
+#: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 msgid "No data yet"
 msgstr ""
@@ -1732,6 +1763,10 @@ msgstr "读取"
 msgid "Read errors"
 msgstr "读取错误"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Reason (optional)"
+msgstr ""
+
 #: src/components/routes/system/charts/network-charts.tsx
 msgid "Received"
 msgstr "接收"
@@ -1754,6 +1789,10 @@ msgstr "刷新"
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Relationships"
 msgstr "关系"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Remove"
+msgstr ""
 
 #: src/components/login/login.tsx
 msgid "Request a one-time password"
@@ -1967,6 +2006,10 @@ msgstr "SMTP 设置"
 #: src/components/systems-table/systems-table.tsx
 msgid "Sort By"
 msgstr "排序依据"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Start"
+msgstr ""
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -2389,6 +2432,7 @@ msgstr "利用率"
 msgid "Value"
 msgstr "值"
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "View"
 msgstr "视图"
@@ -2438,6 +2482,10 @@ msgstr ""
 #: src/components/routes/settings/notifications.tsx
 msgid "Webhook / Push notifications"
 msgstr "Webhook / 推送通知"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Webhooks (one per line, empty = all)"
+msgstr ""
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "When enabled, this token allows agents to self-register without prior system creation."

@@ -19,6 +19,7 @@ msgstr "(leave empty to keep)"
 
 #. placeholder {0}: m.uptime.toFixed(2)
 #: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
 msgid "{0} % uptime"
 msgstr "{0} % uptime"
 
@@ -157,6 +158,10 @@ msgstr "Active state"
 #: src/components/routes/settings/quiet-hours.tsx
 msgid "Add {foo}"
 msgstr "Add {foo}"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Add maintenance window"
+msgstr "Add maintenance window"
 
 #: src/components/routes/uptime.tsx
 msgid "Add monitor"
@@ -843,9 +848,11 @@ msgstr "Edit"
 msgid "Edit {foo}"
 msgstr "Edit {foo}"
 
-#: src/components/routes/monitor-dialog.tsx
-#~ msgid "Edit monitor"
-#~ msgstr "Edit monitor"
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Edit monitor"
+msgstr "Edit monitor"
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/forgot-pass-form.tsx
@@ -857,10 +864,18 @@ msgstr "Email"
 msgid "Email notifications"
 msgstr "Email notifications"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Emails (one per line, empty = all)"
+msgstr "Emails (one per line, empty = all)"
+
 #. Context: Battery state
 #: src/lib/i18n.ts
 msgid "Empty"
 msgstr "Empty"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "End"
+msgstr "End"
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -1082,6 +1097,7 @@ msgid "GPU Usage"
 msgstr "GPU Usage"
 
 #: src/components/routes/system/info-bar.tsx
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "Grid"
 msgstr "Grid"
@@ -1231,6 +1247,10 @@ msgstr "Lifecycle"
 msgid "limit"
 msgstr "limit"
 
+#: src/components/routes/uptime.tsx
+msgid "List"
+msgstr "List"
+
 #: src/components/routes/system/charts/load-average-chart.tsx
 msgid "Load Average"
 msgstr "Load Average"
@@ -1287,6 +1307,16 @@ msgstr "Looking instead for where to create alerts? Click the bell <0/> icons in
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Main PID"
 msgstr "Main PID"
+
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Maintenance windows (no notifications while active)"
+msgstr "Maintenance windows (no notifications while active)"
 
 #: src/components/routes/settings/layout.tsx
 msgid "Manage display and notification preferences."
@@ -1406,6 +1436,7 @@ msgstr "No"
 #~ msgid "No checks recorded yet."
 #~ msgstr "No checks recorded yet."
 
+#: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 msgid "No data yet"
 msgstr "No data yet"
@@ -1727,6 +1758,10 @@ msgstr "Read"
 msgid "Read errors"
 msgstr "Read errors"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Reason (optional)"
+msgstr "Reason (optional)"
+
 #: src/components/routes/system/charts/network-charts.tsx
 msgid "Received"
 msgstr "Received"
@@ -1749,6 +1784,10 @@ msgstr "Refresh"
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Relationships"
 msgstr "Relationships"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Remove"
+msgstr "Remove"
 
 #: src/components/login/login.tsx
 msgid "Request a one-time password"
@@ -1962,6 +2001,10 @@ msgstr "SMTP settings"
 #: src/components/systems-table/systems-table.tsx
 msgid "Sort By"
 msgstr "Sort By"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Start"
+msgstr "Start"
 
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
@@ -2384,6 +2427,7 @@ msgstr "Utilization"
 msgid "Value"
 msgstr "Value"
 
+#: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table.tsx
 msgid "View"
 msgstr "View"
@@ -2433,6 +2477,10 @@ msgstr "Watch certificate expiry"
 #: src/components/routes/settings/notifications.tsx
 msgid "Webhook / Push notifications"
 msgstr "Webhook / Push notifications"
+
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Webhooks (one per line, empty = all)"
+msgstr "Webhooks (one per line, empty = all)"
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "When enabled, this token allows agents to self-register without prior system creation."
