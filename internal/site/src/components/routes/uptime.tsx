@@ -3,8 +3,6 @@ import { memo, useEffect, useState } from "react"
 import { FooterRepoLink } from "@/components/footer-repo-link"
 import { Card, CardContent } from "@/components/ui/card"
 import Spinner from "@/components/spinner"
-import { $router, Link } from "@/components/router"
-import { getPagePath } from "@nanostores/router"
 import { pb } from "@/lib/api"
 import { MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
 import type { MonitorStatus } from "@/types"
@@ -82,12 +80,6 @@ export default memo(() => {
 			<div className="mx-auto flex max-w-4xl flex-col gap-6">
 				<div className="flex items-center justify-between">
 					<h1 className="text-xl font-semibold">{t`Uptime`}</h1>
-					<Link
-						href={getPagePath($router, "monitors")}
-						className="text-sm text-muted-foreground hover:underline"
-					>
-						{t`Manage monitors`}
-					</Link>
 				</div>
 				<div
 					className={`rounded-md px-4 py-3 text-lg font-medium text-white ${operational ? "bg-green-600" : "bg-red-600"}`}
@@ -106,12 +98,7 @@ export default memo(() => {
 							{data.monitors.map((m) => (
 								<div key={m.id} className="px-4 py-3">
 									<div className="mb-2 flex items-center justify-between gap-2">
-										<Link
-											href={getPagePath($router, "monitor", { id: m.id })}
-											className="truncate text-sm font-medium hover:underline"
-										>
-											{m.name}
-										</Link>
+										<span className="truncate text-sm font-medium">{m.name}</span>
 										<span
 											className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[m.status] ?? MONITOR_STATUS_TEXT.up}`}
 										>

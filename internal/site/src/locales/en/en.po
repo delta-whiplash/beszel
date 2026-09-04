@@ -14,8 +14,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "(leave empty to keep)"
-msgstr "(leave empty to keep)"
+#~ msgid "(leave empty to keep)"
+#~ msgstr "(leave empty to keep)"
 
 #. placeholder {0}: m.uptime.toFixed(2)
 #: src/components/routes/uptime.tsx
@@ -28,15 +28,13 @@ msgctxt "New version available"
 msgid "{0} available"
 msgstr "{0} available"
 
-#. placeholder {0}: summary.counts.down
 #: src/components/monitors-summary.tsx
-msgid "{0} down"
-msgstr "{0} down"
+#~ msgid "{0} down"
+#~ msgstr "{0} down"
 
-#. placeholder {0}: monitor.last_latency_ms.toFixed(0)
 #: src/components/routes/monitors.tsx
-msgid "{0} ms"
-msgstr "{0} ms"
+#~ msgid "{0} ms"
+#~ msgstr "{0} ms"
 
 #. placeholder {0}: table.getFilteredSelectedRowModel().rows.length
 #. placeholder {1}: table.getFilteredRowModel().rows.length
@@ -44,20 +42,17 @@ msgstr "{0} ms"
 msgid "{0} of {1} row(s) selected."
 msgstr "{0} of {1} row(s) selected."
 
-#. placeholder {0}: summary.counts.paused
 #: src/components/monitors-summary.tsx
-msgid "{0} paused"
-msgstr "{0} paused"
+#~ msgid "{0} paused"
+#~ msgstr "{0} paused"
 
-#. placeholder {0}: summary.counts.up
 #: src/components/monitors-summary.tsx
-msgid "{0} up"
-msgstr "{0} up"
+#~ msgid "{0} up"
+#~ msgstr "{0} up"
 
-#. placeholder {0}: summary.counts.warn
 #: src/components/monitors-summary.tsx
-msgid "{0} warning"
-msgstr "{0} warning"
+#~ msgid "{0} warning"
+#~ msgstr "{0} warning"
 
 #: src/components/routes/system/info-bar.tsx
 msgid "{cores, plural, one {# core} other {# cores}}"
@@ -127,8 +122,8 @@ msgid "90 days ago"
 msgstr "90 days ago"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Accepted codes"
-msgstr "Accepted codes"
+#~ msgid "Accepted codes"
+#~ msgstr "Accepted codes"
 
 #. Table column
 #: src/components/routes/settings/quiet-hours.tsx
@@ -165,8 +160,8 @@ msgstr "Add {foo}"
 
 #: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/monitors.tsx
-msgid "Add monitor"
-msgstr "Add monitor"
+#~ msgid "Add monitor"
+#~ msgstr "Add monitor"
 
 #: src/components/routes/settings/notifications.tsx
 msgid "Add URL"
@@ -205,8 +200,8 @@ msgid "Alert History"
 msgstr "Alert History"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Alert when keyword is missing"
-msgstr "Alert when keyword is missing"
+#~ msgid "Alert when keyword is missing"
+#~ msgstr "Alert when keyword is missing"
 
 #: src/components/alerts/alert-button.tsx
 #: src/components/alerts/alerts-sheet.tsx
@@ -234,10 +229,9 @@ msgstr "All Systems"
 msgid "All Systems Operational"
 msgstr "All Systems Operational"
 
-#. placeholder {0}: monitor.name
 #: src/components/routes/monitors.tsx
-msgid "Are you sure you want to delete {0}?"
-msgstr "Are you sure you want to delete {0}?"
+#~ msgid "Are you sure you want to delete {0}?"
+#~ msgstr "Are you sure you want to delete {0}?"
 
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Are you sure you want to delete {name}?"
@@ -248,8 +242,8 @@ msgid "Are you sure?"
 msgstr "Are you sure?"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Auth"
-msgstr "Auth"
+#~ msgid "Auth"
+#~ msgstr "Auth"
 
 #: src/components/copy-to-clipboard.tsx
 msgid "Automatic copy requires a secure context."
@@ -315,8 +309,8 @@ msgid "Bandwidth"
 msgstr "Bandwidth"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Basic"
-msgstr "Basic"
+#~ msgid "Basic"
+#~ msgstr "Basic"
 
 #. Battery label in systems table header
 #: src/components/systems-table/systems-table-columns.tsx
@@ -330,8 +324,8 @@ msgid "Battery"
 msgstr "Battery"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Bearer token"
-msgstr "Bearer token"
+#~ msgid "Bearer token"
+#~ msgstr "Bearer token"
 
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Became active"
@@ -394,8 +388,6 @@ msgstr "Can start"
 msgid "Can stop"
 msgstr "Can stop"
 
-#: src/components/routes/monitor-dialog.tsx
-#: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -423,18 +415,17 @@ msgstr "Celsius (°C)"
 #~ msgid "Cert"
 #~ msgstr "Cert"
 
-#. placeholder {0}: monitor.cert_days.toFixed(0)
 #: src/components/routes/monitors.tsx
-msgid "Cert expires in {0} days"
-msgstr "Cert expires in {0} days"
+#~ msgid "Cert expires in {0} days"
+#~ msgstr "Cert expires in {0} days"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Cert thresholds must be positive with critical below warning."
-msgstr "Cert thresholds must be positive with critical below warning."
+#~ msgid "Cert thresholds must be positive with critical below warning."
+#~ msgstr "Cert thresholds must be positive with critical below warning."
 
 #: src/components/routes/monitor.tsx
-msgid "Certificate"
-msgstr "Certificate"
+#~ msgid "Certificate"
+#~ msgstr "Certificate"
 
 #: src/components/routes/settings/general.tsx
 msgid "Change display units for metrics."
@@ -466,12 +457,12 @@ msgid "Check {email} for a reset link."
 msgstr "Check {email} for a reset link."
 
 #: src/components/routes/monitors.tsx
-msgid "Check completed"
-msgstr "Check completed"
+#~ msgid "Check completed"
+#~ msgstr "Check completed"
 
 #: src/components/routes/monitors.tsx
-msgid "Check failed"
-msgstr "Check failed"
+#~ msgid "Check failed"
+#~ msgstr "Check failed"
 
 #: src/components/routes/settings/layout.tsx
 msgid "Check logs for more details."
@@ -486,8 +477,8 @@ msgid "Check your notification service"
 msgstr "Check your notification service"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Checks certificate expiry without an HTTP request."
-msgstr "Checks certificate expiry without an HTTP request."
+#~ msgid "Checks certificate expiry without an HTTP request."
+#~ msgstr "Checks certificate expiry without an HTTP request."
 
 #: src/components/routes/system/zfs-table.tsx
 msgid "Checksum errors"
@@ -555,7 +546,6 @@ msgstr "Container Health"
 msgid "Containers"
 msgstr "Containers"
 
-#: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Continue"
@@ -680,8 +670,8 @@ msgid "Critical (%)"
 msgstr "Critical (%)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Critical below (days)"
-msgstr "Critical below (days)"
+#~ msgid "Critical below (days)"
+#~ msgstr "Critical below (days)"
 
 #: src/components/routes/system/disk-io-sheet.tsx
 msgid "Cumulative data read since boot"
@@ -741,7 +731,6 @@ msgstr "Default time period"
 msgid "Degraded"
 msgstr "Degraded"
 
-#: src/components/routes/monitors.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/system/smart-table.tsx
@@ -750,8 +739,8 @@ msgid "Delete"
 msgstr "Delete"
 
 #: src/components/routes/monitors.tsx
-msgid "Delete failed"
-msgstr "Delete failed"
+#~ msgid "Delete failed"
+#~ msgstr "Delete failed"
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Delete fingerprint"
@@ -835,7 +824,6 @@ msgstr "Download"
 msgid "Duration"
 msgstr "Duration"
 
-#: src/components/routes/monitors.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Edit"
@@ -847,8 +835,8 @@ msgid "Edit {foo}"
 msgstr "Edit {foo}"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Edit monitor"
-msgstr "Edit monitor"
+#~ msgid "Edit monitor"
+#~ msgstr "Edit monitor"
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/forgot-pass-form.tsx
@@ -931,17 +919,16 @@ msgid "Exited active"
 msgstr "Exited active"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Expected answer (optional)"
-msgstr "Expected answer (optional)"
+#~ msgid "Expected answer (optional)"
+#~ msgstr "Expected answer (optional)"
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Expires after one hour or on hub restart."
 msgstr "Expires after one hour or on hub restart."
 
-#. placeholder {0}: monitor.cert_days.toFixed(0)
 #: src/components/routes/monitor.tsx
-msgid "Expires in {0} days"
-msgstr "Expires in {0} days"
+#~ msgid "Expires in {0} days"
+#~ msgstr "Expires in {0} days"
 
 #: src/components/routes/settings/alerts-history-data-table.tsx
 msgid "Export"
@@ -960,8 +947,8 @@ msgstr "Export your current systems and monitors configuration."
 #~ msgstr "Export your current systems configuration."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "External uptime check executed from the hub."
-msgstr "External uptime check executed from the hub."
+#~ msgid "External uptime check executed from the hub."
+#~ msgstr "External uptime check executed from the hub."
 
 #: src/components/routes/settings/general.tsx
 msgid "Fahrenheit (°F)"
@@ -1056,8 +1043,8 @@ msgid "Full"
 msgstr "Full"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Full URL. Accepts 2xx by default."
-msgstr "Full URL. Accepts 2xx by default."
+#~ msgid "Full URL. Accepts 2xx by default."
+#~ msgstr "Full URL. Accepts 2xx by default."
 
 #. Context: General settings
 #: src/components/routes/settings/general.tsx
@@ -1118,8 +1105,8 @@ msgid "Host / IP"
 msgstr "Host / IP"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "HTTP check that also looks for text in the first 2 MB of the response."
-msgstr "HTTP check that also looks for text in the first 2 MB of the response."
+#~ msgid "HTTP check that also looks for text in the first 2 MB of the response."
+#~ msgstr "HTTP check that also looks for text in the first 2 MB of the response."
 
 #: src/components/routes/monitor-dialog.tsx
 #~ msgid "HTTP check that also looks for text in the response."
@@ -1149,8 +1136,8 @@ msgid "I/O Utilization"
 msgstr "I/O Utilization"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "ICMP echo. The hub may need NET_RAW capability in Docker."
-msgstr "ICMP echo. The hub may need NET_RAW capability in Docker."
+#~ msgid "ICMP echo. The hub may need NET_RAW capability in Docker."
+#~ msgstr "ICMP echo. The hub may need NET_RAW capability in Docker."
 
 #. Context: Battery state
 #: src/lib/i18n.ts
@@ -1162,8 +1149,8 @@ msgid "If you've lost the password to your admin account, you may reset it using
 msgstr "If you've lost the password to your admin account, you may reset it using the following command."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Ignore TLS errors (insecure)"
-msgstr "Ignore TLS errors (insecure)"
+#~ msgid "Ignore TLS errors (insecure)"
+#~ msgstr "Ignore TLS errors (insecure)"
 
 #: src/components/containers-table/containers-table-columns.tsx
 msgctxt "Docker image"
@@ -1179,44 +1166,44 @@ msgid "Interval"
 msgstr "Interval"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Interval (seconds)"
-msgstr "Interval (seconds)"
+#~ msgid "Interval (seconds)"
+#~ msgstr "Interval (seconds)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Interval must be at least 20 seconds."
-msgstr "Interval must be at least 20 seconds."
+#~ msgid "Interval must be at least 20 seconds."
+#~ msgstr "Interval must be at least 20 seconds."
 
 #: src/components/login/auth-form.tsx
 msgid "Invalid email address."
 msgstr "Invalid email address."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Invert status (upside down)"
-msgstr "Invert status (upside down)"
+#~ msgid "Invert status (upside down)"
+#~ msgstr "Invert status (upside down)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Keyword"
-msgstr "Keyword"
+#~ msgid "Keyword"
+#~ msgstr "Keyword"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Keyword is required for keyword monitors."
-msgstr "Keyword is required for keyword monitors."
+#~ msgid "Keyword is required for keyword monitors."
+#~ msgstr "Keyword is required for keyword monitors."
 
 #: src/components/routes/settings/general.tsx
 msgid "Language"
 msgstr "Language"
 
 #: src/components/routes/monitor.tsx
-msgid "Last latency"
-msgstr "Last latency"
+#~ msgid "Last latency"
+#~ msgstr "Last latency"
 
 #: src/components/routes/monitor.tsx
-msgid "Latency"
-msgstr "Latency"
+#~ msgid "Latency"
+#~ msgstr "Latency"
 
 #: src/components/routes/monitor.tsx
-msgid "Latency (ms)"
-msgstr "Latency (ms)"
+#~ msgid "Latency (ms)"
+#~ msgstr "Latency (ms)"
 
 #: src/components/systems-table/systems-table.tsx
 msgid "Layout"
@@ -1297,8 +1284,8 @@ msgid "Manage display and notification preferences."
 msgstr "Manage display and notification preferences."
 
 #: src/components/routes/uptime.tsx
-msgid "Manage monitors"
-msgstr "Manage monitors"
+#~ msgid "Manage monitors"
+#~ msgstr "Manage monitors"
 
 #: src/components/add-system.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -1337,12 +1324,12 @@ msgid "Memory usage of containers"
 msgstr "Memory usage of containers"
 
 #: src/components/routes/monitor.tsx
-msgid "Message"
-msgstr "Message"
+#~ msgid "Message"
+#~ msgstr "Message"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Method"
-msgstr "Method"
+#~ msgid "Method"
+#~ msgstr "Method"
 
 #. Device model
 #: src/components/routes/system/smart-table.tsx
@@ -1355,29 +1342,28 @@ msgstr "Model"
 #: src/components/routes/monitor.tsx
 #: src/components/routes/monitors.tsx
 #: src/components/routes/monitors.tsx
-msgid "Monitors"
-msgstr "Monitors"
+#~ msgid "Monitors"
+#~ msgstr "Monitors"
 
 #: src/components/routes/system/zfs-table.tsx
 msgid "Mountpoint"
 msgstr "Mountpoint"
 
 #: src/components/routes/monitors.tsx
-msgid "Mute notifications"
-msgstr "Mute notifications"
+#~ msgid "Mute notifications"
+#~ msgstr "Mute notifications"
 
 #: src/components/add-system.tsx
 #: src/components/alerts-history-columns.tsx
 #: src/components/containers-table/containers-table-columns.tsx
-#: src/components/routes/monitor-dialog.tsx
 #: src/components/systemd-table/systemd-table-columns.tsx
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Name"
 msgstr "Name"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Name is required."
-msgstr "Name is required."
+#~ msgid "Name is required."
+#~ msgstr "Name is required."
 
 #: src/components/containers-table/containers-table-columns.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -1407,8 +1393,8 @@ msgid "No"
 msgstr "No"
 
 #: src/components/routes/monitor.tsx
-msgid "No checks recorded yet."
-msgstr "No checks recorded yet."
+#~ msgid "No checks recorded yet."
+#~ msgstr "No checks recorded yet."
 
 #: src/components/routes/uptime.tsx
 msgid "No data yet"
@@ -1423,8 +1409,8 @@ msgid "No monitors yet."
 msgstr "No monitors yet."
 
 #: src/components/routes/monitors.tsx
-msgid "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
-msgstr "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
+#~ msgid "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
+#~ msgstr "No monitors yet. Add your first HTTP, DNS, ping or TLS check."
 
 #: src/components/command-palette.tsx
 #: src/components/systemd-table/systemd-table.tsx
@@ -1449,7 +1435,6 @@ msgstr "No S.M.A.R.T. attributes available for this device."
 msgid "No systems found."
 msgstr "No systems found."
 
-#: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/system/zfs-table.tsx
 msgid "None"
 msgstr "None"
@@ -1465,8 +1450,8 @@ msgid "Notifications may include recent container log excerpts."
 msgstr "Notifications may include recent container log excerpts."
 
 #: src/components/routes/monitors.tsx
-msgid "Notifications toggled"
-msgstr "Notifications toggled"
+#~ msgid "Notifications toggled"
+#~ msgstr "Notifications toggled"
 
 #: src/components/login/auth-form.tsx
 msgid "OAuth 2 / OIDC support"
@@ -1523,16 +1508,16 @@ msgid "Overwrite existing alerts"
 msgstr "Overwrite existing alerts"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Packet size"
-msgstr "Packet size"
+#~ msgid "Packet size"
+#~ msgstr "Packet size"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Packet size must be between 0 and 65400."
-msgstr "Packet size must be between 0 and 65400."
+#~ msgid "Packet size must be between 0 and 65400."
+#~ msgstr "Packet size must be between 0 and 65400."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Packets"
-msgstr "Packets"
+#~ msgid "Packets"
+#~ msgstr "Packets"
 
 #: src/components/command-palette.tsx
 #: src/components/command-palette.tsx
@@ -1552,7 +1537,6 @@ msgstr "Pages / Settings"
 
 #: src/components/login/auth-form.tsx
 #: src/components/login/auth-form.tsx
-#: src/components/routes/monitor-dialog.tsx
 msgid "Password"
 msgstr "Password"
 
@@ -1572,14 +1556,13 @@ msgstr "Password reset request received"
 msgid "Past"
 msgstr "Past"
 
-#: src/components/routes/monitors.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Pause"
 msgstr "Pause"
 
 #: src/components/routes/monitors.tsx
-msgid "Pause toggled"
-msgstr "Pause toggled"
+#~ msgid "Pause toggled"
+#~ msgstr "Pause toggled"
 
 #: src/components/routes/uptime.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -1616,8 +1599,8 @@ msgid "Persistence"
 msgstr "Persistence"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Ping count must be between 1 and 10."
-msgstr "Ping count must be between 1 and 10."
+#~ msgid "Ping count must be between 1 and 10."
+#~ msgstr "Ping count must be between 1 and 10."
 
 #: src/components/routes/settings/notifications.tsx
 msgid "Please <0>configure an SMTP server</0> to ensure alerts are delivered."
@@ -1665,12 +1648,12 @@ msgid "Port"
 msgstr "Port"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Port (default 443)"
-msgstr "Port (default 443)"
+#~ msgid "Port (default 443)"
+#~ msgstr "Port (default 443)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Port must be between 1 and 65535."
-msgstr "Port must be between 1 and 65535."
+#~ msgid "Port must be between 1 and 65535."
+#~ msgstr "Port must be between 1 and 65535."
 
 #: src/components/containers-table/containers-table-columns.tsx
 msgctxt "Container ports"
@@ -1696,8 +1679,8 @@ msgid "Process started"
 msgstr "Process started"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Protocol"
-msgstr "Protocol"
+#~ msgid "Protocol"
+#~ msgstr "Protocol"
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Public key"
@@ -1737,12 +1720,12 @@ msgid "Received"
 msgstr "Received"
 
 #: src/components/routes/monitor.tsx
-msgid "Recent checks"
-msgstr "Recent checks"
+#~ msgid "Recent checks"
+#~ msgstr "Recent checks"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Record type"
-msgstr "Record type"
+#~ msgid "Record type"
+#~ msgstr "Record type"
 
 #: src/components/containers-table/containers-table.tsx
 #: src/components/containers-table/containers-table.tsx
@@ -1772,12 +1755,12 @@ msgid "Requires"
 msgstr "Requires"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Resend delay must be between 0 and 1440 minutes."
-msgstr "Resend delay must be between 0 and 1440 minutes."
+#~ msgid "Resend delay must be between 0 and 1440 minutes."
+#~ msgstr "Resend delay must be between 0 and 1440 minutes."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Resend every (minutes, 0 = never)"
-msgstr "Resend every (minutes, 0 = never)"
+#~ msgid "Resend every (minutes, 0 = never)"
+#~ msgstr "Resend every (minutes, 0 = never)"
 
 #: src/components/login/forgot-pass-form.tsx
 msgid "Reset Password"
@@ -1790,29 +1773,28 @@ msgid "Resolved"
 msgstr "Resolved"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Resolver (optional)"
-msgstr "Resolver (optional)"
+#~ msgid "Resolver (optional)"
+#~ msgstr "Resolver (optional)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Resolves a record type, optionally against a custom resolver."
-msgstr "Resolves a record type, optionally against a custom resolver."
+#~ msgid "Resolves a record type, optionally against a custom resolver."
+#~ msgstr "Resolves a record type, optionally against a custom resolver."
 
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Restarts"
 msgstr "Restarts"
 
-#: src/components/routes/monitors.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Resume"
 msgstr "Resume"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Retries before down"
-msgstr "Retries before down"
+#~ msgid "Retries before down"
+#~ msgstr "Retries before down"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Retries must be between 0 and 10."
-msgstr "Retries must be between 0 and 10."
+#~ msgid "Retries must be between 0 and 10."
+#~ msgstr "Retries must be between 0 and 10."
 
 #: src/components/routes/system/charts/disk-charts.tsx
 #: src/components/routes/system/charts/disk-charts.tsx
@@ -1830,8 +1812,8 @@ msgid "Rows per page"
 msgstr "Rows per page"
 
 #: src/components/routes/monitors.tsx
-msgid "Run check now"
-msgstr "Run check now"
+#~ msgid "Run check now"
+#~ msgstr "Run check now"
 
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Runtime Metrics"
@@ -1846,8 +1828,8 @@ msgid "S.M.A.R.T. Self-Test"
 msgstr "S.M.A.R.T. Self-Test"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Save"
-msgstr "Save"
+#~ msgid "Save"
+#~ msgstr "Save"
 
 #: src/components/add-system.tsx
 msgid "Save {foo}"
@@ -1903,8 +1885,8 @@ msgid "Send a single heartbeat ping to verify your endpoint is working."
 msgstr "Send a single heartbeat ping to verify your endpoint is working."
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Send notifications"
-msgstr "Send notifications"
+#~ msgid "Send notifications"
+#~ msgstr "Send notifications"
 
 #: src/components/routes/settings/heartbeat.tsx
 msgid "Send periodic outbound pings to an external monitoring service so you can monitor Beszel without exposing it to the internet."
@@ -1983,7 +1965,6 @@ msgid "State"
 msgstr "State"
 
 #: src/components/containers-table/containers-table-columns.tsx
-#: src/components/routes/monitor.tsx
 #: src/components/routes/system/smart-table.tsx
 #: src/components/systemd-table/systemd-table.tsx
 #: src/components/systems-table/systems-table.tsx
@@ -2054,12 +2035,12 @@ msgstr "Tabs"
 
 #: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/monitor.tsx
-msgid "Target"
-msgstr "Target"
+#~ msgid "Target"
+#~ msgstr "Target"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Target is required."
-msgstr "Target is required."
+#~ msgid "Target is required."
+#~ msgstr "Target is required."
 
 #: src/components/systemd-table/systemd-table.tsx
 msgid "Tasks"
@@ -2109,8 +2090,8 @@ msgid "This action cannot be undone. This will permanently delete all current re
 msgstr "This action cannot be undone. This will permanently delete all current records for {name} from the database."
 
 #: src/components/routes/monitors.tsx
-msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
-msgstr "This action cannot be undone. This will permanently delete the monitor and its check history."
+#~ msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
+#~ msgstr "This action cannot be undone. This will permanently delete the monitor and its check history."
 
 #: src/components/routes/settings/alerts-history-data-table.tsx
 msgid "This will permanently delete all selected records from the database."
@@ -2125,20 +2106,20 @@ msgid "Throughput of ZFS pool {poolName}"
 msgstr "Throughput of ZFS pool {poolName}"
 
 #: src/components/routes/monitor.tsx
-msgid "Time"
-msgstr "Time"
+#~ msgid "Time"
+#~ msgstr "Time"
 
 #: src/components/routes/settings/general.tsx
 msgid "Time format"
 msgstr "Time format"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Timeout (seconds)"
-msgstr "Timeout (seconds)"
+#~ msgid "Timeout (seconds)"
+#~ msgstr "Timeout (seconds)"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Timeout must be positive and less than the interval."
-msgstr "Timeout must be positive and less than the interval."
+#~ msgid "Timeout must be positive and less than the interval."
+#~ msgstr "Timeout must be positive and less than the interval."
 
 #: src/components/routes/settings/notifications.tsx
 msgid "To email(s)"
@@ -2149,7 +2130,6 @@ msgid "Today"
 msgstr "Today"
 
 #: src/components/add-system.tsx
-#: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Token"
 msgstr "Token"
@@ -2259,7 +2239,6 @@ msgstr "Triggers when status switches between up and down"
 msgid "Triggers when usage of any disk exceeds a threshold"
 msgstr "Triggers when usage of any disk exceeds a threshold"
 
-#: src/components/routes/monitor-dialog.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/system/smart-table.tsx
@@ -2296,8 +2275,8 @@ msgid "Unlimited"
 msgstr "Unlimited"
 
 #: src/components/routes/monitors.tsx
-msgid "Unmute notifications"
-msgstr "Unmute notifications"
+#~ msgid "Unmute notifications"
+#~ msgstr "Unmute notifications"
 
 #. Context: System is up
 #: src/components/routes/system/info-bar.tsx
@@ -2336,13 +2315,12 @@ msgid "Uptime"
 msgstr "Uptime"
 
 #: src/components/routes/monitor.tsx
-msgid "Uptime 24h"
-msgstr "Uptime 24h"
+#~ msgid "Uptime 24h"
+#~ msgstr "Uptime 24h"
 
-#. placeholder {0}: monitor.uptime_24h > 0 ? monitor.uptime_24h.toFixed(1) : "—"
 #: src/components/routes/monitors.tsx
-msgid "Uptime 24h: {0}%"
-msgstr "Uptime 24h: {0}%"
+#~ msgid "Uptime 24h: {0}%"
+#~ msgstr "Uptime 24h: {0}%"
 
 #: src/components/routes/uptime.tsx
 msgid "Uptime over the past 90 days, one bar per day."
@@ -2376,8 +2354,8 @@ msgid "Used"
 msgstr "Used"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Username"
-msgstr "Username"
+#~ msgid "Username"
+#~ msgstr "Username"
 
 #: src/components/command-palette.tsx
 #: src/components/navbar.tsx
@@ -2424,8 +2402,8 @@ msgid "Wants"
 msgstr "Wants"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Warn below (days)"
-msgstr "Warn below (days)"
+#~ msgid "Warn below (days)"
+#~ msgstr "Warn below (days)"
 
 #: src/components/routes/settings/general.tsx
 msgid "Warning (%)"
@@ -2436,8 +2414,8 @@ msgid "Warning thresholds"
 msgstr "Warning thresholds"
 
 #: src/components/routes/monitor-dialog.tsx
-msgid "Watch certificate expiry"
-msgstr "Watch certificate expiry"
+#~ msgid "Watch certificate expiry"
+#~ msgstr "Watch certificate expiry"
 
 #: src/components/routes/settings/notifications.tsx
 msgid "Webhook / Push notifications"

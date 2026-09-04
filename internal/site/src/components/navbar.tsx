@@ -110,10 +110,6 @@ export default function Navbar() {
 								<HardDriveIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
 								<span>S.M.A.R.T.</span>
 							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => navigate(getPagePath($router, "monitors"))} className="flex items-center">
-								<ActivityIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
-								<Trans>Monitors</Trans>
-							</DropdownMenuItem>
 							<DropdownMenuItem onClick={() => navigate(getPagePath($router, "uptime"))} className="flex items-center">
 								<HeartPulseIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
 								<Trans>Uptime status</Trans>
@@ -188,21 +184,6 @@ export default function Navbar() {
 						</Link>
 					</TooltipTrigger>
 					<TooltipContent>S.M.A.R.T.</TooltipContent>
-				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Link
-							href={getPagePath($router, "monitors")}
-							className={cn("hidden md:grid", buttonVariants({ variant: "ghost", size: "icon" }))}
-							aria-label="Monitors"
-							onMouseEnter={runOnce(() => import("@/components/routes/monitors"))}
-						>
-							<ActivityIcon className="h-[1.2rem] w-[1.2rem]" strokeWidth={1.5} />
-						</Link>
-					</TooltipTrigger>
-					<TooltipContent>
-						<Trans>Monitors</Trans>
-					</TooltipContent>
 				</Tooltip>
 				<Tooltip>
 					<TooltipTrigger asChild>
