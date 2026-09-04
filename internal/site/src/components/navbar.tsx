@@ -7,6 +7,7 @@ import {
 	ContainerIcon,
 	DatabaseBackupIcon,
 	HardDriveIcon,
+	LayoutDashboardIcon,
 	LogOutIcon,
 	LogsIcon,
 	MenuIcon,
@@ -110,6 +111,10 @@ export default function Navbar() {
 								<HardDriveIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
 								<span>S.M.A.R.T.</span>
 							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => navigate(getPagePath($router, "home"))} className="flex items-center">
+								<LayoutDashboardIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
+								<Trans>Devices</Trans>
+							</DropdownMenuItem>
 							<DropdownMenuItem onClick={() => navigate(getPagePath($router, "uptime"))} className="flex items-center">
 								<HeartPulseIcon className="h-4 w-4 me-2.5" strokeWidth={1.5} />
 								<Trans>Uptime status</Trans>
@@ -184,6 +189,21 @@ export default function Navbar() {
 						</Link>
 					</TooltipTrigger>
 					<TooltipContent>S.M.A.R.T.</TooltipContent>
+				</Tooltip>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Link
+							href={getPagePath($router, "home")}
+							className={cn("hidden md:grid", buttonVariants({ variant: "ghost", size: "icon" }))}
+							aria-label="Devices"
+							onMouseEnter={runOnce(() => import("@/components/routes/home"))}
+						>
+							<LayoutDashboardIcon className="h-[1.2rem] w-[1.2rem]" strokeWidth={1.5} />
+						</Link>
+					</TooltipTrigger>
+					<TooltipContent>
+						<Trans>Devices</Trans>
+					</TooltipContent>
 				</Tooltip>
 				<Tooltip>
 					<TooltipTrigger asChild>

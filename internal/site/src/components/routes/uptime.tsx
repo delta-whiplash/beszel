@@ -1,10 +1,13 @@
 import { useLingui } from "@lingui/react/macro"
 import { memo, useEffect, useState } from "react"
 import { FooterRepoLink } from "@/components/footer-repo-link"
+import { UptimeMonitorDialog } from "@/components/uptime-monitor-dialog"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Spinner from "@/components/spinner"
-import { pb } from "@/lib/api"
 import { MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
+import { isReadOnlyUser, pb } from "@/lib/api"
+import { PlusIcon } from "lucide-react"
 import type { MonitorStatus } from "@/types"
 
 interface UptimeMonitor {
@@ -38,6 +41,7 @@ export default memo(() => {
 	const { t } = useLingui()
 	const [data, setData] = useState<UptimeResponse | null>(null)
 	const [error, setError] = useState("")
+	const [dialogOpen, setDialogOpen] = useState(false)
 
 	useEffect(() => {
 		document.title = `${t`Uptime`} / Beszel`
@@ -80,6 +84,11 @@ export default memo(() => {
 			<div className="mx-auto flex max-w-4xl flex-col gap-6">
 				<div className="flex items-center justify-between">
 					<h1 className="text-xl font-semibold">{t`Uptime`}</h1>
+					{!isReadOnlyUser() && (
+						<Button size="sm" onClick={() => setDialogOpen(true)}>
+							<PlusIcon /> {t`Add monitor`}
+						</Button>
+					)}
 				</div>
 				<div
 					className={`rounded-md px-4 py-3 text-lg font-medium text-white ${operational ? "bg-green-600" : "bg-red-600"}`}
@@ -129,6 +138,9 @@ export default memo(() => {
 				</p>
 			</div>
 			<FooterRepoLink />
+			{!isReadOnlyUser() && (
+				<UptimeMonitorDialog open={dialogOpen} setOpen={setDialogOpen} onSaved={() => setDialogOpen(false)} />
+			)}
 		</>
 	)
 })
