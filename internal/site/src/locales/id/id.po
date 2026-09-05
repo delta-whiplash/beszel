@@ -148,6 +148,7 @@ msgid "Active"
 msgstr "Aktif"
 
 #: src/components/active-alerts.tsx
+#: src/components/active-monitor-alerts.tsx
 msgid "Active Alerts"
 msgstr "Peringatan Aktif"
 
@@ -164,6 +165,11 @@ msgstr "Status aktif"
 msgid "Add {foo}"
 msgstr "Tambah {foo}"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Add failed"
+msgstr ""
+
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Add maintenance window"
 msgstr ""
@@ -212,12 +218,18 @@ msgstr "Agen"
 msgid "Alert History"
 msgstr "Riwayat Peringatan"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Alert settings saved"
+msgstr ""
+
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Alert when keyword is missing"
 msgstr ""
 
 #: src/components/alerts/alert-button.tsx
 #: src/components/alerts/alerts-sheet.tsx
+#: src/components/monitor-alert-button.tsx
+#: src/components/monitor-alert-button.tsx
 msgid "Alerts"
 msgstr "Peringatan"
 
@@ -239,12 +251,13 @@ msgid "All Systems"
 msgstr "Semua Sistem"
 
 #: src/components/routes/uptime.tsx
-msgid "All Systems Operational"
-msgstr ""
-
-#: src/components/routes/monitors.tsx
-#~ msgid "Are you sure you want to delete {0}?"
+#~ msgid "All Systems Operational"
 #~ msgstr ""
+
+#. placeholder {0}: monitor.name
+#: src/components/monitor-alert-button.tsx
+msgid "Are you sure you want to delete {0}?"
+msgstr ""
 
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Are you sure you want to delete {name}?"
@@ -401,6 +414,7 @@ msgstr "Dapat dimulai"
 msgid "Can stop"
 msgstr "Dapat diberhentikan"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -560,6 +574,7 @@ msgstr "Kesehatan Kontainer"
 msgid "Containers"
 msgstr "Kontainer"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Continue"
@@ -600,12 +615,17 @@ msgstr "Salin host"
 msgid "Copy Linux command"
 msgstr "Salin perintah Linux"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Copy name"
 msgstr "Salin nama"
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Copy public key"
+msgstr ""
+
+#: src/components/monitor-alert-button.tsx
+msgid "Copy target"
 msgstr ""
 
 #: src/components/copy-to-clipboard.tsx
@@ -745,6 +765,7 @@ msgstr "Standar waktu"
 msgid "Degraded"
 msgstr ""
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/system/smart-table.tsx
@@ -843,6 +864,7 @@ msgstr "Unduh"
 msgid "Duration"
 msgstr "Durasi"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Edit"
@@ -869,6 +891,7 @@ msgstr ""
 msgid "Email notifications"
 msgstr "Notifikasi email"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Emails (one per line, empty = all)"
 msgstr ""
@@ -878,6 +901,7 @@ msgstr ""
 msgid "Empty"
 msgstr "Kosong"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "End"
 msgstr ""
@@ -1313,12 +1337,14 @@ msgstr "Mencari tempat untuk membuat peringatan? Klik ikon lonceng <0/> di tabel
 msgid "Main PID"
 msgstr "PID utama"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Maintenance"
 msgstr ""
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Maintenance windows (no notifications while active)"
 msgstr ""
@@ -1378,6 +1404,10 @@ msgstr ""
 #. Device model
 #: src/components/routes/system/smart-table.tsx
 msgid "Model"
+msgstr ""
+
+#: src/components/active-monitor-alerts.tsx
+msgid "Monitor is down"
 msgstr ""
 
 #: src/components/monitors-summary.tsx
@@ -1492,6 +1522,10 @@ msgstr "Tidak ada"
 msgid "Notifications"
 msgstr "Notifikasi"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Notifications are sent on status changes using your global channels, optionally restricted below."
+msgstr ""
+
 #: src/lib/alerts.ts
 msgid "Notifications may include recent container log excerpts."
 msgstr "Notifikasi dapat menyertakan cuplikan terbaru dari log kontainer."
@@ -1529,6 +1563,7 @@ msgstr "Sekali pakai"
 msgid "One-time password"
 msgstr "Kata sandi sekali pakai (OTP)"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -1604,6 +1639,7 @@ msgstr "Permintaan reset kata sandi diterima"
 msgid "Past"
 msgstr "Lalu"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Pause"
 msgstr "Jeda"
@@ -1763,6 +1799,7 @@ msgstr "Baca"
 msgid "Read errors"
 msgstr "Kesalahan baca"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Reason (optional)"
 msgstr ""
@@ -1790,6 +1827,7 @@ msgstr "Muat ulang"
 msgid "Relationships"
 msgstr "Relasi"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Remove"
 msgstr ""
@@ -1810,10 +1848,12 @@ msgstr "Diperlukan oleh"
 msgid "Requires"
 msgstr "Memerlukan"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Resend delay must be between 0 and 1440 minutes."
 msgstr ""
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Resend every (minutes, 0 = never)"
 msgstr ""
@@ -1840,6 +1880,7 @@ msgstr ""
 msgid "Restarts"
 msgstr "Restart"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Resume"
 msgstr "Lanjutkan"
@@ -1895,6 +1936,14 @@ msgstr "Simpan {foo}"
 msgid "Save address using enter key or comma. Leave blank to disable email notifications."
 msgstr "Simpan alamat menggunakan tombol enter atau koma. Biarkan kosong untuk menonaktifkan notifikasi email."
 
+#: src/components/monitor-alert-button.tsx
+msgid "Save alert settings"
+msgstr ""
+
+#: src/components/monitor-alert-button.tsx
+msgid "Save failed"
+msgstr ""
+
 #: src/components/routes/settings/general.tsx
 #: src/components/routes/settings/notifications.tsx
 msgid "Save Settings"
@@ -1940,6 +1989,7 @@ msgstr "Pilih {foo}"
 msgid "Send a single heartbeat ping to verify your endpoint is working."
 msgstr "Kirim satu ping heartbeat untuk memverifikasi titik akhir Anda berfungsi."
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Send notifications"
 msgstr ""
@@ -1965,8 +2015,8 @@ msgid "Service Details"
 msgstr "Detail Layanan"
 
 #: src/components/routes/uptime.tsx
-msgid "Service Disruption"
-msgstr ""
+#~ msgid "Service Disruption"
+#~ msgstr ""
 
 #: src/components/routes/system.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -2007,6 +2057,7 @@ msgstr "Pengaturan SMTP"
 msgid "Sort By"
 msgstr "Urutkan Berdasarkan"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Start"
 msgstr ""
@@ -2148,9 +2199,9 @@ msgstr "Kemudian masuk ke backend dan reset kata sandi akun pengguna anda di tab
 msgid "This action cannot be undone. This will permanently delete all current records for {name} from the database."
 msgstr "Aksi ini tidak dapat di kembalikan. ini akan menghapus permanen semua record {name} dari database"
 
-#: src/components/routes/monitors.tsx
-#~ msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
-#~ msgstr ""
+#: src/components/monitor-alert-button.tsx
+msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
+msgstr ""
 
 #: src/components/routes/settings/alerts-history-data-table.tsx
 msgid "This will permanently delete all selected records from the database."
@@ -2483,6 +2534,7 @@ msgstr ""
 msgid "Webhook / Push notifications"
 msgstr "Webhook / Push notifikasi"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Webhooks (one per line, empty = all)"
 msgstr ""

@@ -1,6 +1,8 @@
 import { useLingui } from "@lingui/react/macro"
 import { memo, useEffect, useState } from "react"
 import { FooterRepoLink } from "@/components/footer-repo-link"
+import { MonitorActionsButton, MonitorAlertButton } from "@/components/monitor-alert-button"
+import { ActiveMonitorAlerts } from "@/components/active-monitor-alerts"
 import { UptimeMonitorDialog } from "@/components/uptime-monitor-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -52,12 +54,19 @@ function DayBars({ days }: { days: string[] }) {
 export default memo(() => {
 	const { t } = useLingui()
 	const [data, setData] = useState<UptimeResponse | null>(null)
+	const [records, setRecords] = useState<Record<string, MonitorRecord>>({})
 	const [error, setError] = useState("")
 	const [dialogOpen, setDialogOpen] = useState(false)
 	const [editing, setEditing] = useState<MonitorRecord | null>(null)
 	const [viewMode, setViewMode] = useBrowserStorage<UptimeViewMode>("viewMode-uptime", "list")
 
 	const openEdit = async (id: string) => {
+		const cached = records[id]
+		if (cached) {
+			setEditing(cached)
+			setDialogOpen(true)
+			return
+		}
 		try {
 			const record = await pb.collection<MonitorRecord>("monitors").getOne(id)
 			setEditing(record)
@@ -83,8 +92,32 @@ export default memo(() => {
 					setError(e instanceof Error ? e.message : String(e))
 				}
 			})
+		pb.collection<MonitorRecord>("monitors")
+			.getFullList()
+			.then((rows) => {
+				if (!cancelled) {
+					setRecords(Object.fromEntries(rows.map((r) => [r.id, r])))
+				}
+			})
+			.catch(() => {})
+		const unsub = pb.collection("monitors").subscribe("*", (e) => {
+			const record = e.record as unknown as MonitorRecord
+			setRecords((prev) => {
+				if (e.action === "delete") {
+					const next = { ...prev }
+					delete next[record.id]
+					return next
+				}
+				return { ...prev, [record.id]: record }
+			})
+		})
 		return () => {
 			cancelled = true
+			unsub.then((fn) => {
+				if (typeof fn === "function") {
+					fn()
+				}
+			})
 		}
 	}, [t])
 
@@ -102,8 +135,6 @@ export default memo(() => {
 			</div>
 		)
 	}
-
-	const operational = data.status === "operational"
 
 	return (
 		<>
@@ -147,11 +178,7 @@ export default memo(() => {
 						)}
 					</div>
 				</div>
-				<div
-					className={`rounded-md px-4 py-3 text-lg font-medium text-white ${operational ? "bg-green-600" : "bg-red-600"}`}
-				>
-					{operational ? t`All Systems Operational` : t`Service Disruption`}
-				</div>
+				<ActiveMonitorAlerts />
 				{data.monitors.length === 0 ? (
 					<Card>
 						<CardContent className="py-10 text-center text-muted-foreground">
@@ -162,11 +189,17 @@ export default memo(() => {
 					<div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
 						{data.monitors.map((m) => (
 							<Card key={m.id}>
-								<button
-									type="button"
+								<div
+									role={isReadOnlyUser() ? undefined : "button"}
+									tabIndex={isReadOnlyUser() ? undefined : 0}
 									className="block w-full px-4 py-3 text-left"
 									onClick={() => {
 										if (!isReadOnlyUser()) {
+											openEdit(m.id)
+										}
+									}}
+									onKeyDown={(e) => {
+										if ((e.key === "Enter" || e.key === " ") && !isReadOnlyUser()) {
 											openEdit(m.id)
 										}
 									}}
@@ -181,15 +214,25 @@ export default memo(() => {
 												</Badge>
 											)}
 										</span>
-										<Badge className={MONITOR_STATUS_STYLES[m.status] ?? MONITOR_STATUS_STYLES.pending}>
-											{m.status}
-										</Badge>
+										<span className="flex shrink-0 items-center gap-1">
+											{records[m.id] && (
+												<>
+													<span data-nolink onClick={(e) => e.stopPropagation()}>
+														<MonitorAlertButton monitor={records[m.id]} />
+													</span>
+													<MonitorActionsButton monitor={records[m.id]} onEdit={openEdit} />
+												</>
+											)}
+											<Badge className={MONITOR_STATUS_STYLES[m.status] ?? MONITOR_STATUS_STYLES.pending}>
+												{m.status}
+											</Badge>
+										</span>
 									</div>
 									<DayBars days={m.days} />
 									<div className="mt-1 text-xs text-muted-foreground">
 										{m.uptime > 0 ? t`${m.uptime.toFixed(2)} % uptime` : t`No data yet`}
 									</div>
-								</button>
+								</div>
 							</Card>
 						))}
 					</div>
@@ -197,12 +240,21 @@ export default memo(() => {
 					<Card>
 						<CardContent className="divide-y p-0">
 							{data.monitors.map((m) => (
-								<button
+								<div
 									key={m.id}
-									type="button"
-									className="block w-full px-4 py-3 text-left hover:bg-muted/40 disabled:cursor-default disabled:hover:bg-transparent"
-									disabled={isReadOnlyUser()}
-									onClick={() => openEdit(m.id)}
+									role={isReadOnlyUser() ? undefined : "button"}
+									tabIndex={isReadOnlyUser() ? undefined : 0}
+									className="block w-full px-4 py-3 text-left hover:bg-muted/40"
+									onClick={() => {
+										if (!isReadOnlyUser()) {
+											openEdit(m.id)
+										}
+									}}
+									onKeyDown={(e) => {
+										if ((e.key === "Enter" || e.key === " ") && !isReadOnlyUser()) {
+											openEdit(m.id)
+										}
+									}}
 									title={isReadOnlyUser() ? undefined : t`Edit monitor`}
 								>
 									<div className="mb-2 flex items-center justify-between gap-2">
@@ -214,16 +266,26 @@ export default memo(() => {
 												</Badge>
 											)}
 										</span>
-										<span
-											className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[m.status] ?? MONITOR_STATUS_TEXT.up}`}
-										>
-											{m.status === "down"
-												? t`Down`
-												: m.status === "warn"
-													? t`Degraded`
-													: m.status === "paused"
-														? t`Paused`
-														: t`Operational`}
+										<span className="flex shrink-0 items-center gap-1">
+											{records[m.id] && (
+												<>
+													<span data-nolink onClick={(e) => e.stopPropagation()}>
+														<MonitorAlertButton monitor={records[m.id]} />
+													</span>
+													<MonitorActionsButton monitor={records[m.id]} onEdit={openEdit} />
+												</>
+											)}
+											<span
+												className={`text-xs font-medium ${MONITOR_STATUS_TEXT[m.status] ?? MONITOR_STATUS_TEXT.up}`}
+											>
+												{m.status === "down"
+													? t`Down`
+													: m.status === "warn"
+														? t`Degraded`
+														: m.status === "paused"
+															? t`Paused`
+															: t`Operational`}
+											</span>
 										</span>
 									</div>
 										<DayBars days={m.days} />
@@ -234,8 +296,8 @@ export default memo(() => {
 											</span>
 											<span>{t`Today`}</span>
 										</div>
-									</button>
-								))}
+									</div>
+							))}
 							</CardContent>
 						</Card>
 					)}

@@ -143,6 +143,7 @@ msgid "Active"
 msgstr "Active"
 
 #: src/components/active-alerts.tsx
+#: src/components/active-monitor-alerts.tsx
 msgid "Active Alerts"
 msgstr "Active Alerts"
 
@@ -159,6 +160,11 @@ msgstr "Active state"
 msgid "Add {foo}"
 msgstr "Add {foo}"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Add failed"
+msgstr "Add failed"
+
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Add maintenance window"
 msgstr "Add maintenance window"
@@ -207,12 +213,18 @@ msgstr "Agent"
 msgid "Alert History"
 msgstr "Alert History"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Alert settings saved"
+msgstr "Alert settings saved"
+
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Alert when keyword is missing"
 msgstr "Alert when keyword is missing"
 
 #: src/components/alerts/alert-button.tsx
 #: src/components/alerts/alerts-sheet.tsx
+#: src/components/monitor-alert-button.tsx
+#: src/components/monitor-alert-button.tsx
 msgid "Alerts"
 msgstr "Alerts"
 
@@ -234,12 +246,13 @@ msgid "All Systems"
 msgstr "All Systems"
 
 #: src/components/routes/uptime.tsx
-msgid "All Systems Operational"
-msgstr "All Systems Operational"
+#~ msgid "All Systems Operational"
+#~ msgstr "All Systems Operational"
 
-#: src/components/routes/monitors.tsx
-#~ msgid "Are you sure you want to delete {0}?"
-#~ msgstr "Are you sure you want to delete {0}?"
+#. placeholder {0}: monitor.name
+#: src/components/monitor-alert-button.tsx
+msgid "Are you sure you want to delete {0}?"
+msgstr "Are you sure you want to delete {0}?"
 
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Are you sure you want to delete {name}?"
@@ -396,6 +409,7 @@ msgstr "Can start"
 msgid "Can stop"
 msgstr "Can stop"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -555,6 +569,7 @@ msgstr "Container Health"
 msgid "Containers"
 msgstr "Containers"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Continue"
@@ -595,6 +610,7 @@ msgstr "Copy host"
 msgid "Copy Linux command"
 msgstr "Copy Linux command"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Copy name"
 msgstr "Copy name"
@@ -602,6 +618,10 @@ msgstr "Copy name"
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "Copy public key"
 msgstr "Copy public key"
+
+#: src/components/monitor-alert-button.tsx
+msgid "Copy target"
+msgstr "Copy target"
 
 #: src/components/copy-to-clipboard.tsx
 msgid "Copy text"
@@ -740,6 +760,7 @@ msgstr "Default time period"
 msgid "Degraded"
 msgstr "Degraded"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/alerts-history-data-table.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/system/smart-table.tsx
@@ -838,6 +859,7 @@ msgstr "Download"
 msgid "Duration"
 msgstr "Duration"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Edit"
@@ -864,6 +886,7 @@ msgstr "Email"
 msgid "Email notifications"
 msgstr "Email notifications"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Emails (one per line, empty = all)"
 msgstr "Emails (one per line, empty = all)"
@@ -873,6 +896,7 @@ msgstr "Emails (one per line, empty = all)"
 msgid "Empty"
 msgstr "Empty"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "End"
 msgstr "End"
@@ -1308,12 +1332,14 @@ msgstr "Looking instead for where to create alerts? Click the bell <0/> icons in
 msgid "Main PID"
 msgstr "Main PID"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Maintenance"
 msgstr "Maintenance"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Maintenance windows (no notifications while active)"
 msgstr "Maintenance windows (no notifications while active)"
@@ -1374,6 +1400,10 @@ msgstr "Method"
 #: src/components/routes/system/smart-table.tsx
 msgid "Model"
 msgstr "Model"
+
+#: src/components/active-monitor-alerts.tsx
+msgid "Monitor is down"
+msgstr "Monitor is down"
 
 #: src/components/monitors-summary.tsx
 #: src/components/navbar.tsx
@@ -1487,6 +1517,10 @@ msgstr "None"
 msgid "Notifications"
 msgstr "Notifications"
 
+#: src/components/monitor-alert-button.tsx
+msgid "Notifications are sent on status changes using your global channels, optionally restricted below."
+msgstr "Notifications are sent on status changes using your global channels, optionally restricted below."
+
 #: src/lib/alerts.ts
 msgid "Notifications may include recent container log excerpts."
 msgstr "Notifications may include recent container log excerpts."
@@ -1524,6 +1558,7 @@ msgstr "One-time"
 msgid "One-time password"
 msgstr "One-time password"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/routes/settings/quiet-hours.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
 #: src/components/routes/settings/tokens-fingerprints.tsx
@@ -1599,6 +1634,7 @@ msgstr "Password reset request received"
 msgid "Past"
 msgstr "Past"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Pause"
 msgstr "Pause"
@@ -1758,6 +1794,7 @@ msgstr "Read"
 msgid "Read errors"
 msgstr "Read errors"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Reason (optional)"
 msgstr "Reason (optional)"
@@ -1785,6 +1822,7 @@ msgstr "Refresh"
 msgid "Relationships"
 msgstr "Relationships"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Remove"
 msgstr "Remove"
@@ -1805,10 +1843,12 @@ msgstr "Required by"
 msgid "Requires"
 msgstr "Requires"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Resend delay must be between 0 and 1440 minutes."
 msgstr "Resend delay must be between 0 and 1440 minutes."
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Resend every (minutes, 0 = never)"
 msgstr "Resend every (minutes, 0 = never)"
@@ -1835,6 +1875,7 @@ msgstr "Resolves a record type, optionally against a custom resolver."
 msgid "Restarts"
 msgstr "Restarts"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/systems-table/systems-table-columns.tsx
 msgid "Resume"
 msgstr "Resume"
@@ -1890,6 +1931,14 @@ msgstr "Save {foo}"
 msgid "Save address using enter key or comma. Leave blank to disable email notifications."
 msgstr "Save address using enter key or comma. Leave blank to disable email notifications."
 
+#: src/components/monitor-alert-button.tsx
+msgid "Save alert settings"
+msgstr "Save alert settings"
+
+#: src/components/monitor-alert-button.tsx
+msgid "Save failed"
+msgstr "Save failed"
+
 #: src/components/routes/settings/general.tsx
 #: src/components/routes/settings/notifications.tsx
 msgid "Save Settings"
@@ -1935,6 +1984,7 @@ msgstr "Select {foo}"
 msgid "Send a single heartbeat ping to verify your endpoint is working."
 msgstr "Send a single heartbeat ping to verify your endpoint is working."
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Send notifications"
 msgstr "Send notifications"
@@ -1960,8 +2010,8 @@ msgid "Service Details"
 msgstr "Service Details"
 
 #: src/components/routes/uptime.tsx
-msgid "Service Disruption"
-msgstr "Service Disruption"
+#~ msgid "Service Disruption"
+#~ msgstr "Service Disruption"
 
 #: src/components/routes/system.tsx
 #: src/components/systems-table/systems-table-columns.tsx
@@ -2002,6 +2052,7 @@ msgstr "SMTP settings"
 msgid "Sort By"
 msgstr "Sort By"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Start"
 msgstr "Start"
@@ -2143,9 +2194,9 @@ msgstr "Then log into the backend and reset your user account password in the us
 msgid "This action cannot be undone. This will permanently delete all current records for {name} from the database."
 msgstr "This action cannot be undone. This will permanently delete all current records for {name} from the database."
 
-#: src/components/routes/monitors.tsx
-#~ msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
-#~ msgstr "This action cannot be undone. This will permanently delete the monitor and its check history."
+#: src/components/monitor-alert-button.tsx
+msgid "This action cannot be undone. This will permanently delete the monitor and its check history."
+msgstr "This action cannot be undone. This will permanently delete the monitor and its check history."
 
 #: src/components/routes/settings/alerts-history-data-table.tsx
 msgid "This will permanently delete all selected records from the database."
@@ -2478,6 +2529,7 @@ msgstr "Watch certificate expiry"
 msgid "Webhook / Push notifications"
 msgstr "Webhook / Push notifications"
 
+#: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Webhooks (one per line, empty = all)"
 msgstr "Webhooks (one per line, empty = all)"
