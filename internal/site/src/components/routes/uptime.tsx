@@ -15,7 +15,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Spinner from "@/components/spinner"
-import { MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
+import { MONITOR_STATUS_STYLES, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
 import { isReadOnlyUser, pb } from "@/lib/api"
 import { useBrowserStorage } from "@/lib/utils"
 import { LayoutGridIcon, LayoutListIcon, PlusIcon, Settings2Icon } from "lucide-react"
@@ -53,15 +53,20 @@ function DayBars({ days }: { days: string[] }) {
 
 function StatusLabel({ status }: { status: MonitorStatus }) {
 	const { t } = useLingui()
+	const label =
+		status === "down"
+			? t`Down`
+			: status === "warn"
+				? t`Degraded`
+				: status === "paused"
+					? t`Paused`
+					: t`Operational`
 	return (
-		<span className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[status] ?? MONITOR_STATUS_TEXT.up}`}>
-			{status === "down"
-				? t`Down`
-				: status === "warn"
-					? t`Degraded`
-					: status === "paused"
-						? t`Paused`
-						: t`Operational`}
+		<span
+			title={label}
+			className={`shrink-0 size-2 rounded-full ${MONITOR_STATUS_STYLES[status] ?? MONITOR_STATUS_STYLES.pending}`}
+		>
+			<span className="sr-only">{label}</span>
 		</span>
 	)
 }
