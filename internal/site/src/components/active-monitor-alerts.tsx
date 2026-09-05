@@ -5,36 +5,59 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Trans } from "@lingui/react/macro"
 import { TriangleAlertIcon } from "lucide-react"
 import { pb } from "@/lib/api"
+import type { AlertRecord } from "@/types"
 
 interface ActiveMonitor {
 	id: string
 	name: string
-	status: string
 	message: string
 }
 
+/** Active monitor alerts, mirroring ActiveAlerts but sourced from the native
+ * alerts table (triggered rows with a monitor). Realtime via subscription. */
 export const ActiveMonitorAlerts = memo(() => {
 	const { t } = useLingui()
 	const [actives, setActives] = useState<ActiveMonitor[]>([])
 
 	useEffect(() => {
 		let cancelled = false
-		pb.send<{ down: { id: string; name: string }[] }>("/api/beszel/monitors/summary", {})
-			.then((summary) => {
-				if (!cancelled) {
-					setActives(
-						(summary.down ?? []).map((d) => ({
-							id: d.id,
-							name: d.name,
-							status: "down",
-							message: t`Monitor is down`,
-						}))
-					)
-				}
-			})
-			.catch(() => {})
+		const load = () => {
+			pb.collection("alerts")
+				.getFullList<AlertRecord>({ filter: "triggered = true" })
+				.then((rows) => {
+					if (cancelled) {
+						return
+					}
+					pb.collection("monitors")
+						.getFullList<{ id: string; name: string }>()
+						.then((mons) => {
+							if (cancelled) {
+								return
+							}
+							const names = Object.fromEntries(mons.map((m) => [m.id, m.name]))
+							setActives(
+								rows
+									.filter((r) => r.monitor)
+									.map((r) => ({
+										id: r.id,
+										name: names[r.monitor] ?? r.monitor,
+										message: t`Monitor is down`,
+									}))
+							)
+						})
+						.catch(() => {})
+				})
+				.catch(() => {})
+		}
+		load()
+		const unsub = pb.collection("alerts").subscribe("*", () => load())
 		return () => {
 			cancelled = true
+			unsub.then((fn) => {
+				if (typeof fn === "function") {
+					fn()
+				}
+			})
 		}
 	}, [t])
 

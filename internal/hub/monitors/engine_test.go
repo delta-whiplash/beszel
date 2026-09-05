@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	beszelTests "github.com/henrygd/beszel/internal/tests"
+
 	"github.com/henrygd/beszel/internal/hub/monitors"
 	_ "github.com/henrygd/beszel/internal/migrations"
 
@@ -288,4 +290,64 @@ func TestEngine_MaintenanceSuppressesNotify(t *testing.T) {
 	require.NoError(t, err)
 	assert.True(t, active)
 	assert.Equal(t, "upgrade", reason)
+}
+
+func TestEngine_NativeAlertRows(t *testing.T) {
+	// Full hub (not bare TestApp) so AlertManager hooks write history.
+	hub, err := beszelTests.NewTestHub(t.TempDir())
+	require.NoError(t, err)
+	defer hub.Cleanup()
+	app := hub.TestApp
+	mon, user := seedEngineMonitor(t, app, "native", true, 0)
+	sender := &fakeSender{}
+
+	eng := monitors.NewEngine(app, sender.Send)
+	down := true
+	eng.SetCheck(func(ctx context.Context, m monitors.Monitor) monitors.CheckResult {
+		if down {
+			return monitors.CheckResult{Status: monitors.StatusDown, Message: "boom"}
+		}
+		return monitors.CheckResult{Status: monitors.StatusUp, LatencyMs: 1}
+	})
+	require.NoError(t, eng.SyncOne(mon.Id))
+
+	rows, err := monitorAlertRows(t, app)
+	require.NoError(t, err)
+	require.Len(t, rows, 1, "down transition must open a native alert row")
+	require.True(t, rows[0].GetBool("triggered"))
+	require.Equal(t, user.Id, rows[0].GetString("user"))
+	require.Equal(t, "MonitorStatus", rows[0].GetString("name"))
+
+	history, err := app.FindRecordsByFilter("alerts_history", "alert_id != ''", "", -1, 0)
+	require.NoError(t, err)
+	require.Len(t, history, 1, "trigger must write alerts_history via existing hooks")
+
+	down = false
+	require.NoError(t, eng.SyncOne(mon.Id))
+	eng.Stop()
+
+	rows, err = monitorAlertRows(t, app)
+	require.NoError(t, err)
+	require.Len(t, rows, 1)
+	require.False(t, rows[0].GetBool("triggered"), "recovery must resolve the alert row")
+
+	history, err = app.FindRecordsByFilter("alerts_history", "alert_id != ''", "", -1, 0)
+	require.NoError(t, err)
+	require.Len(t, history, 1)
+	require.False(t, history[0].GetDateTime("resolved").IsZero(), "recovery must resolve history")
+}
+
+func monitorAlertRows(t *testing.T, app *pbtests.TestApp) ([]*core.Record, error) {
+	t.Helper()
+	all, err := app.FindAllRecords("alerts")
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*core.Record, 0)
+	for _, r := range all {
+		if r.GetString("monitor") != "" {
+			out = append(out, r)
+		}
+	}
+	return out, nil
 }

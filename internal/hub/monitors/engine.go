@@ -8,6 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
 )
 
@@ -241,6 +242,11 @@ func (e *Engine) persistAndNotify(mr MonitorRecord, res CheckResult, failures in
 		slog.Error("monitors: failed to save check result", "monitor", mr.Name, "err", err)
 		return
 	}
+	// Mirror the transition into the native alerts table so monitor
+	// incidents use the same records, history hooks and UI as system
+	// alerts. A down/warn transition opens (or re-opens) the alert row;
+	// recovery closes it, which resolves the history entry.
+	e.syncNativeAlert(mr, res, transition)
 	if !mr.Notify || e.send == nil {
 		return
 	}
@@ -298,6 +304,50 @@ func (e *Engine) persistAndNotify(mr MonitorRecord, res CheckResult, failures in
 	}
 	for _, userID := range mr.UserIDs {
 		e.send(userID, title, message, e.link(mr.ID), mr.NotifyEmails, mr.NotifyWebhooks)
+	}
+}
+
+// syncNativeAlert mirrors monitor transitions into the native alerts table
+// (one row per user x monitor, name MonitorStatus). Triggering/resolving
+// flows through the existing alerts hooks, so alerts_history is written and
+// resolved exactly like system alerts.
+func (e *Engine) syncNativeAlert(mr MonitorRecord, res CheckResult, transition bool) {
+	if !transition {
+		return
+	}
+	triggered := res.Status == StatusDown || res.Status == StatusWarn
+	for _, userID := range mr.UserIDs {
+		rec, err := e.app.FindFirstRecordByFilter("alerts",
+			"user = {:user} && monitor = {:monitor} && name = 'MonitorStatus'",
+			dbx.Params{"user": userID, "monitor": mr.ID})
+		if err != nil {
+			if !triggered {
+				continue
+			}
+			col, err := e.app.FindCachedCollectionByNameOrId("alerts")
+			if err != nil {
+				slog.Error("monitors: alerts collection missing", "err", err)
+				return
+			}
+			rec = core.NewRecord(col)
+			rec.Set("user", userID)
+			rec.Set("monitor", mr.ID)
+			rec.Set("name", "MonitorStatus")
+			rec.Set("value", 1)
+			// Save untriggered first so the subsequent flip goes through
+			// the alerts update hooks (which write alerts_history).
+			if err := e.app.Save(rec); err != nil {
+				slog.Error("monitors: failed to create alert row", "monitor", mr.Name, "err", err)
+				continue
+			}
+		}
+		if rec.GetBool("triggered") == triggered {
+			continue
+		}
+		rec.Set("triggered", triggered)
+		if err := e.app.Save(rec); err != nil {
+			slog.Error("monitors: failed to sync alert row", "monitor", mr.Name, "err", err)
+		}
 	}
 }
 

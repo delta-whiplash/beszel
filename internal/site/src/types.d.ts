@@ -291,6 +291,7 @@ export interface SystemStatsRecord extends RecordModel {
 export interface AlertRecord extends RecordModel {
 	id: string
 	system: string
+	monitor: string
 	name: string
 	triggered: boolean
 	value: number
