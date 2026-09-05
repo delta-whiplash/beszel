@@ -200,7 +200,7 @@ export default memo(() => {
 						)}
 					</div>
 				</div>
-				<ActiveMonitorAlerts onSelect={openEdit} />
+				<ActiveMonitorAlerts onSelect={(id) => navigate(getPagePath($router, "monitor", { id }))} />
 				{data.monitors.length === 0 ? (
 					<Card>
 						<CardContent className="py-10 text-center text-muted-foreground">
