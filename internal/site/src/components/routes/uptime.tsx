@@ -15,7 +15,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Spinner from "@/components/spinner"
-import { MONITOR_STATUS_STYLES, MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
+import { MONITOR_STATUS_TEXT, UPTIME_DAY_STYLES } from "@/lib/monitor-status"
 import { isReadOnlyUser, pb } from "@/lib/api"
 import { useBrowserStorage } from "@/lib/utils"
 import { LayoutGridIcon, LayoutListIcon, PlusIcon, Settings2Icon } from "lucide-react"
@@ -48,6 +48,21 @@ function DayBars({ days }: { days: string[] }) {
 				/>
 			))}
 		</div>
+	)
+}
+
+function StatusLabel({ status }: { status: MonitorStatus }) {
+	const { t } = useLingui()
+	return (
+		<span className={`shrink-0 text-xs font-medium ${MONITOR_STATUS_TEXT[status] ?? MONITOR_STATUS_TEXT.up}`}>
+			{status === "down"
+				? t`Down`
+				: status === "warn"
+					? t`Degraded`
+					: status === "paused"
+						? t`Paused`
+						: t`Operational`}
+		</span>
 	)
 }
 
@@ -207,6 +222,7 @@ export default memo(() => {
 								>
 									<div className="mb-2 flex items-center justify-between gap-2">
 										<span className="flex min-w-0 items-center gap-2">
+											<StatusLabel status={m.status} />
 											<span className="truncate text-sm font-medium">{m.name}</span>
 											{m.maintenance && (
 												<Badge variant="outline" title={m.maintenance}>
@@ -223,9 +239,6 @@ export default memo(() => {
 													<MonitorActionsButton monitor={records[m.id]} onEdit={openEdit} />
 												</>
 											)}
-											<Badge className={MONITOR_STATUS_STYLES[m.status] ?? MONITOR_STATUS_STYLES.pending}>
-												{m.status}
-											</Badge>
 										</span>
 									</div>
 									<DayBars days={m.days} />
@@ -259,6 +272,7 @@ export default memo(() => {
 								>
 									<div className="mb-2 flex items-center justify-between gap-2">
 										<span className="flex min-w-0 items-center gap-2">
+											<StatusLabel status={m.status} />
 											<span className="truncate text-sm font-medium">{m.name}</span>
 											{m.maintenance && (
 												<Badge variant="outline" title={m.maintenance}>
@@ -275,17 +289,6 @@ export default memo(() => {
 													<MonitorActionsButton monitor={records[m.id]} onEdit={openEdit} />
 												</>
 											)}
-											<span
-												className={`text-xs font-medium ${MONITOR_STATUS_TEXT[m.status] ?? MONITOR_STATUS_TEXT.up}`}
-											>
-												{m.status === "down"
-													? t`Down`
-													: m.status === "warn"
-														? t`Degraded`
-														: m.status === "paused"
-															? t`Paused`
-															: t`Operational`}
-											</span>
 										</span>
 									</div>
 										<DayBars days={m.days} />
