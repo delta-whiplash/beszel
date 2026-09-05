@@ -1,6 +1,8 @@
 import { useLingui } from "@lingui/react/macro"
 import { memo, useEffect, useState } from "react"
 import { FooterRepoLink } from "@/components/footer-repo-link"
+import { $router, navigate } from "@/components/router"
+import { getPagePath } from "@nanostores/router"
 import { MonitorActionsButton, MonitorAlertButton } from "@/components/monitor-alert-button"
 import { ActiveMonitorAlerts } from "@/components/active-monitor-alerts"
 import { UptimeMonitorDialog } from "@/components/uptime-monitor-dialog"
@@ -210,20 +212,16 @@ export default memo(() => {
 						{data.monitors.map((m) => (
 							<Card key={m.id}>
 								<div
-									role={isReadOnlyUser() ? undefined : "button"}
-									tabIndex={isReadOnlyUser() ? undefined : 0}
+									role="button"
+									tabIndex={0}
 									className="block w-full px-4 py-3 text-left"
-									onClick={() => {
-										if (!isReadOnlyUser()) {
-											openEdit(m.id)
-										}
-									}}
+									onClick={() => navigate(getPagePath($router, "monitor", { id: m.id }))}
 									onKeyDown={(e) => {
-										if ((e.key === "Enter" || e.key === " ") && !isReadOnlyUser()) {
-											openEdit(m.id)
+										if (e.key === "Enter" || e.key === " ") {
+											navigate(getPagePath($router, "monitor", { id: m.id }))
 										}
 									}}
-									title={isReadOnlyUser() ? undefined : t`Edit monitor`}
+									title={t`View details`}
 								>
 									<div className="mb-2 flex items-center justify-between gap-2">
 										<span className="flex min-w-0 items-center gap-2">
@@ -260,20 +258,16 @@ export default memo(() => {
 							{data.monitors.map((m) => (
 								<div
 									key={m.id}
-									role={isReadOnlyUser() ? undefined : "button"}
-									tabIndex={isReadOnlyUser() ? undefined : 0}
+									role="button"
+									tabIndex={0}
 									className="block w-full px-4 py-3 text-left hover:bg-muted/40"
-									onClick={() => {
-										if (!isReadOnlyUser()) {
-											openEdit(m.id)
-										}
-									}}
+									onClick={() => navigate(getPagePath($router, "monitor", { id: m.id }))}
 									onKeyDown={(e) => {
-										if ((e.key === "Enter" || e.key === " ") && !isReadOnlyUser()) {
-											openEdit(m.id)
+										if (e.key === "Enter" || e.key === " ") {
+											navigate(getPagePath($router, "monitor", { id: m.id }))
 										}
 									}}
-									title={isReadOnlyUser() ? undefined : t`Edit monitor`}
+									title={t`View details`}
 								>
 									<div className="mb-2 flex items-center justify-between gap-2">
 										<span className="flex min-w-0 items-center gap-2">

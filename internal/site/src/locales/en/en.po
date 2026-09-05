@@ -447,8 +447,8 @@ msgid "Cert thresholds must be positive with critical below warning."
 msgstr "Cert thresholds must be positive with critical below warning."
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Certificate"
-#~ msgstr "Certificate"
+msgid "Certificate"
+msgstr "Certificate"
 
 #: src/components/routes/settings/general.tsx
 msgid "Change display units for metrics."
@@ -870,8 +870,6 @@ msgstr "Edit"
 msgid "Edit {foo}"
 msgstr "Edit {foo}"
 
-#: src/components/routes/uptime.tsx
-#: src/components/routes/uptime.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Edit monitor"
 msgstr "Edit monitor"
@@ -974,9 +972,10 @@ msgstr "Expected answer (optional)"
 msgid "Expires after one hour or on hub restart."
 msgstr "Expires after one hour or on hub restart."
 
+#. placeholder {0}: monitor.cert_days.toFixed(0)
 #: src/components/routes/monitor.tsx
-#~ msgid "Expires in {0} days"
-#~ msgstr "Expires in {0} days"
+msgid "Expires in {0} days"
+msgstr "Expires in {0} days"
 
 #: src/components/routes/settings/alerts-history-data-table.tsx
 msgid "Export"
@@ -1243,16 +1242,16 @@ msgid "Language"
 msgstr "Language"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Last latency"
-#~ msgstr "Last latency"
+msgid "Last latency"
+msgstr "Last latency"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Latency"
-#~ msgstr "Latency"
+msgid "Latency"
+msgstr "Latency"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Latency (ms)"
-#~ msgstr "Latency (ms)"
+msgid "Latency (ms)"
+msgstr "Latency (ms)"
 
 #: src/components/systems-table/systems-table.tsx
 msgid "Layout"
@@ -1389,8 +1388,8 @@ msgid "Memory usage of containers"
 msgstr "Memory usage of containers"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Message"
-#~ msgstr "Message"
+msgid "Message"
+msgstr "Message"
 
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Method"
@@ -1463,8 +1462,8 @@ msgid "No"
 msgstr "No"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "No checks recorded yet."
-#~ msgstr "No checks recorded yet."
+msgid "No checks recorded yet."
+msgstr "No checks recorded yet."
 
 #: src/components/routes/uptime.tsx
 #: src/components/routes/uptime.tsx
@@ -1808,8 +1807,8 @@ msgid "Received"
 msgstr "Received"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Recent checks"
-#~ msgstr "Recent checks"
+msgid "Recent checks"
+msgstr "Recent checks"
 
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Record type"
@@ -2075,6 +2074,7 @@ msgid "State"
 msgstr "State"
 
 #: src/components/containers-table/containers-table-columns.tsx
+#: src/components/routes/monitor.tsx
 #: src/components/routes/system/smart-table.tsx
 #: src/components/systemd-table/systemd-table.tsx
 #: src/components/systems-table/systems-table.tsx
@@ -2143,6 +2143,7 @@ msgctxt "Tabs system layout option"
 msgid "Tabs"
 msgstr "Tabs"
 
+#: src/components/routes/monitor.tsx
 #: src/components/uptime-monitor-dialog.tsx
 msgid "Target"
 msgstr "Target"
@@ -2215,8 +2216,8 @@ msgid "Throughput of ZFS pool {poolName}"
 msgstr "Throughput of ZFS pool {poolName}"
 
 #: src/components/routes/monitor.tsx
-#~ msgid "Time"
-#~ msgstr "Time"
+msgid "Time"
+msgstr "Time"
 
 #: src/components/routes/settings/general.tsx
 msgid "Time format"
@@ -2433,6 +2434,10 @@ msgstr "Uptime"
 #~ msgid "Uptime 24h: {0}%"
 #~ msgstr "Uptime 24h: {0}%"
 
+#: src/components/routes/monitor.tsx
+msgid "Uptime in range"
+msgstr "Uptime in range"
+
 #: src/components/routes/uptime.tsx
 msgid "Uptime over the past 90 days, one bar per day."
 msgstr "Uptime over the past 90 days, one bar per day."
@@ -2490,6 +2495,11 @@ msgstr "Value"
 #: src/components/systems-table/systems-table.tsx
 msgid "View"
 msgstr "View"
+
+#: src/components/routes/uptime.tsx
+#: src/components/routes/uptime.tsx
+msgid "View details"
+msgstr "View details"
 
 #: src/components/routes/system/cpu-sheet.tsx
 #: src/components/routes/system/disk-io-sheet.tsx

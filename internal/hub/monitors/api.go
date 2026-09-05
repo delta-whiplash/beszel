@@ -500,13 +500,13 @@ func (a *MonitorAPI) checks(e *core.RequestEvent) error {
 	if err != nil {
 		return e.InternalServerError("failed to load check history", err)
 	}
-	if rng := e.Request.URL.Query().Get("range"); rng == "24h" || rng == "30d" {
-		hours := 24
-		if rng == "30d" {
-			hours = 30 * 24
+	if rng := e.Request.URL.Query().Get("range"); rng != "" {
+		hours := map[string]int{"1h": 1, "12h": 12, "24h": 24, "1w": 7 * 24, "30d": 30 * 24}[rng]
+		if hours == 0 {
+			return e.BadRequestError("invalid range (1h, 12h, 24h, 1w, 30d)", nil)
 		}
 		cutoff := time.Now().UTC().Add(-time.Duration(hours) * time.Hour)
-		kept := rows[:0]
+		kept := make([]*core.Record, 0, len(rows))
 		for _, r := range rows {
 			if !r.GetDateTime("created").Time().Before(cutoff) {
 				kept = append(kept, r)
