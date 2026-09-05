@@ -22,30 +22,24 @@ export const ActiveMonitorAlerts = memo(() => {
 	useEffect(() => {
 		let cancelled = false
 		const load = () => {
-			pb.collection("alerts")
-				.getFullList<AlertRecord>({ filter: "triggered = true" })
-				.then((rows) => {
+			Promise.all([
+				pb.collection("alerts").getFullList<AlertRecord>(200, { filter: "triggered = true" }),
+				pb.collection("monitors").getFullList<{ id: string; name: string }>(),
+			])
+				.then(([rows, mons]) => {
 					if (cancelled) {
 						return
 					}
-					pb.collection("monitors")
-						.getFullList<{ id: string; name: string }>()
-						.then((mons) => {
-							if (cancelled) {
-								return
-							}
-							const names = Object.fromEntries(mons.map((m) => [m.id, m.name]))
-							setActives(
-								rows
-									.filter((r) => r.monitor)
-									.map((r) => ({
-										id: r.id,
-										name: names[r.monitor] ?? r.monitor,
-										message: t`Monitor is down`,
-									}))
-							)
-						})
-						.catch(() => {})
+					const names = Object.fromEntries(mons.map((m) => [m.id, m.name]))
+					setActives(
+						rows
+							.filter((r) => r.monitor)
+							.map((r) => ({
+								id: r.id,
+								name: names[r.monitor] ?? r.monitor,
+								message: t`Monitor is down`,
+							}))
+					)
 				})
 				.catch(() => {})
 		}
