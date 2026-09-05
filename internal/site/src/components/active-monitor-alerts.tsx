@@ -9,13 +9,15 @@ import type { AlertRecord } from "@/types"
 
 interface ActiveMonitor {
 	id: string
+	monitorId: string
 	name: string
 	message: string
 }
 
 /** Active monitor alerts, mirroring ActiveAlerts but sourced from the native
- * alerts table (triggered rows with a monitor). Realtime via subscription. */
-export const ActiveMonitorAlerts = memo(() => {
+ * alerts table (triggered rows with a monitor). Realtime via subscription.
+ * Clicking a card opens the monitor via onSelect, like systems link to detail. */
+export const ActiveMonitorAlerts = memo(({ onSelect }: { onSelect?: (monitorId: string) => void }) => {
 	const { t } = useLingui()
 	const [actives, setActives] = useState<ActiveMonitor[]>([])
 
@@ -36,6 +38,7 @@ export const ActiveMonitorAlerts = memo(() => {
 							.filter((r) => r.monitor)
 							.map((r) => ({
 								id: r.id,
+								monitorId: r.monitor,
 								name: names[r.monitor] ?? r.monitor,
 								message: t`Monitor is down`,
 							}))
@@ -72,11 +75,19 @@ export const ActiveMonitorAlerts = memo(() => {
 					{actives.map((alert) => (
 						<Alert
 							key={alert.id}
-							className="hover:-translate-y-px duration-200 bg-transparent border-foreground/10 hover:shadow-md shadow-black/5"
+							className="relative hover:-translate-y-px duration-200 bg-transparent border-foreground/10 hover:shadow-md shadow-black/5"
 						>
 							<TriangleAlertIcon className="h-4 w-4" />
 							<AlertTitle>{alert.name}</AlertTitle>
 							<AlertDescription>{alert.message}</AlertDescription>
+							{onSelect && (
+								<button
+									type="button"
+									className="absolute inset-0 w-full h-full cursor-pointer"
+									aria-label={`View ${alert.name}`}
+									onClick={() => onSelect(alert.monitorId)}
+								/>
+							)}
 						</Alert>
 					))}
 				</div>

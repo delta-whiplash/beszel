@@ -198,7 +198,7 @@ export default memo(() => {
 						)}
 					</div>
 				</div>
-				<ActiveMonitorAlerts />
+				<ActiveMonitorAlerts onSelect={openEdit} />
 				{data.monitors.length === 0 ? (
 					<Card>
 						<CardContent className="py-10 text-center text-muted-foreground">
