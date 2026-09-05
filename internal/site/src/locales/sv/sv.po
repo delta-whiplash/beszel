@@ -893,8 +893,8 @@ msgstr "E-postaviseringar"
 
 #: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
-msgid "Emails (one per line, empty = all)"
-msgstr ""
+#~ msgid "Emails (one per line, empty = all)"
+#~ msgstr ""
 
 #. Context: Battery state
 #: src/lib/i18n.ts
@@ -1523,7 +1523,11 @@ msgid "Notifications"
 msgstr "Aviseringar"
 
 #: src/components/monitor-alert-button.tsx
-msgid "Notifications are sent on status changes using your global channels, optionally restricted below."
+#~ msgid "Notifications are sent on status changes using your global channels, optionally restricted below."
+#~ msgstr ""
+
+#: src/components/monitor-alert-button.tsx
+msgid "Notifications are sent on status changes using your global channels."
 msgstr ""
 
 #: src/lib/alerts.ts
@@ -2474,6 +2478,10 @@ msgstr ""
 msgid "Users"
 msgstr "Användare"
 
+#: src/components/uptime-monitor-dialog.tsx
+msgid "Uses your global notification channels (Settings → Notifications)."
+msgstr ""
+
 #: src/components/routes/system/charts/disk-charts.tsx
 msgctxt "Disk I/O utilization"
 msgid "Utilization"
@@ -2536,8 +2544,8 @@ msgstr "Webhook / Push-aviseringar"
 
 #: src/components/monitor-alert-button.tsx
 #: src/components/uptime-monitor-dialog.tsx
-msgid "Webhooks (one per line, empty = all)"
-msgstr ""
+#~ msgid "Webhooks (one per line, empty = all)"
+#~ msgstr ""
 
 #: src/components/routes/settings/tokens-fingerprints.tsx
 msgid "When enabled, this token allows agents to self-register without prior system creation."

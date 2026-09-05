@@ -31,7 +31,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import { isReadOnlyUser, pb } from "@/lib/api"
@@ -63,19 +62,10 @@ export const MonitorAlertButton = memo(function MonitorAlertButton({ monitor }: 
 	)
 })
 
-function splitLines(v: string): string[] {
-	return v
-		.split("\n")
-		.map((s) => s.trim())
-		.filter((s) => s.length > 0)
-}
-
 export const MonitorAlertSheetContent = memo(function MonitorAlertSheetContent({ monitor }: { monitor: MonitorRecord }) {
 	const { t } = useLingui()
 	const [notify, setNotify] = useState(monitor.notify)
 	const [resendAfter, setResendAfter] = useState(String(monitor.resend_after ?? 0))
-	const [emails, setEmails] = useState((monitor.notify_emails ?? []).join("\n"))
-	const [webhooks, setWebhooks] = useState((monitor.notify_webhooks ?? []).join("\n"))
 	const [windows, setWindows] = useState<MaintenanceWindow[]>([])
 	const [reason, setReason] = useState("")
 	const [start, setStart] = useState("")
@@ -98,8 +88,6 @@ export const MonitorAlertSheetContent = memo(function MonitorAlertSheetContent({
 			await pb.collection("monitors").update(monitor.id, {
 				notify,
 				resend_after: resend,
-				notify_emails: splitLines(emails),
-				notify_webhooks: splitLines(webhooks),
 			})
 			toast({ title: t`Alert settings saved` })
 		} catch (e) {
@@ -137,7 +125,7 @@ export const MonitorAlertSheetContent = memo(function MonitorAlertSheetContent({
 					<Trans>Alerts</Trans> — {monitor.name}
 				</SheetTitle>
 				<SheetDescription>
-					<Trans>Notifications are sent on status changes using your global channels, optionally restricted below.</Trans>
+					<Trans>Notifications are sent on status changes using your global channels.</Trans>
 				</SheetDescription>
 			</SheetHeader>
 			<div className="mt-4 grid gap-4">
@@ -148,14 +136,6 @@ export const MonitorAlertSheetContent = memo(function MonitorAlertSheetContent({
 				<div className="grid gap-2">
 					<Label htmlFor="malert-resend">{t`Resend every (minutes, 0 = never)`}</Label>
 					<Input id="malert-resend" value={resendAfter} onChange={(e) => setResendAfter(e.target.value)} inputMode="numeric" />
-				</div>
-				<div className="grid gap-2">
-					<Label htmlFor="malert-emails">{t`Emails (one per line, empty = all)`}</Label>
-					<Textarea id="malert-emails" value={emails} onChange={(e) => setEmails(e.target.value)} rows={2} />
-				</div>
-				<div className="grid gap-2">
-					<Label htmlFor="malert-webhooks">{t`Webhooks (one per line, empty = all)`}</Label>
-					<Textarea id="malert-webhooks" value={webhooks} onChange={(e) => setWebhooks(e.target.value)} rows={2} />
 				</div>
 				<Button onClick={saveAlerts} disabled={saving || isReadOnlyUser()}>
 					{t`Save alert settings`}

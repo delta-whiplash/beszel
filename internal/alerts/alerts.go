@@ -234,9 +234,10 @@ func (am *AlertManager) SendAlert(data AlertMessageData) error {
 	if err := record.UnmarshalJSONField("settings", &userAlertSettings); err != nil {
 		am.hub.Logger().Error("Failed to unmarshal user settings", "err", err)
 	}
-	// send alerts via webhooks (restricted to the requested subset, if any)
+	// send alerts via webhooks (restricted to the requested subset, if any;
+	// an empty subset means all channels, like nil)
 	webhooks := userAlertSettings.Webhooks
-	if data.Webhooks != nil {
+	if len(data.Webhooks) > 0 {
 		webhooks = intersectStrings(webhooks, data.Webhooks)
 	}
 	for _, webhook := range webhooks {
@@ -244,9 +245,10 @@ func (am *AlertManager) SendAlert(data AlertMessageData) error {
 			am.hub.Logger().Error("Failed to send shoutrrr alert", "err", err)
 		}
 	}
-	// send alerts via email (restricted to the requested subset, if any)
+	// send alerts via email (restricted to the requested subset, if any;
+	// an empty subset means all channels, like nil)
 	emails := userAlertSettings.Emails
-	if data.Emails != nil {
+	if len(data.Emails) > 0 {
 		emails = intersectStrings(emails, data.Emails)
 	}
 	if len(emails) == 0 {

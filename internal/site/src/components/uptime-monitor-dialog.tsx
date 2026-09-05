@@ -59,8 +59,6 @@ interface FormState {
 	port: string
 	upsideDown: boolean
 	notify: boolean
-	notifyEmails: string
-	notifyWebhooks: string
 }
 
 function str(v: unknown, def: string): string {
@@ -100,8 +98,6 @@ function initialState(monitor?: MonitorRecord): FormState {
 		port: str(cfg.port, ""),
 		upsideDown: Boolean(monitor?.upside_down ?? false),
 		notify: monitor?.notify ?? true,
-		notifyEmails: (monitor?.notify_emails ?? []).join("\n"),
-		notifyWebhooks: (monitor?.notify_webhooks ?? []).join("\n"),
 	}
 }
 
@@ -280,11 +276,6 @@ export function UptimeMonitorDialog({
 		}
 		setSaving(true)
 		try {
-			const splitLines = (v: string) =>
-				v
-					.split("\n")
-					.map((s) => s.trim())
-					.filter((s) => s.length > 0)
 			const body: Record<string, unknown> = {
 				name: form.name.trim(),
 				type: form.type,
@@ -299,14 +290,6 @@ export function UptimeMonitorDialog({
 			}
 			if (!monitor) {
 				body.users = pb.authStore.record ? [pb.authStore.record.id] : []
-			}
-			const emails = splitLines(form.notifyEmails)
-			const webhooks = splitLines(form.notifyWebhooks)
-			if (emails.length > 0 || monitor) {
-				body.notify_emails = emails
-			}
-			if (webhooks.length > 0 || monitor) {
-				body.notify_webhooks = webhooks
 			}
 			if (monitor) {
 				await pb.collection("monitors").update(monitor.id, body)
@@ -633,28 +616,9 @@ export function UptimeMonitorDialog({
 						<Switch id="mon-notify" checked={form.notify} onCheckedChange={(v) => set("notify", v)} />
 					</div>
 					{form.notify && (
-						<>
-							<div className="grid gap-2">
-								<Label htmlFor="mon-emails">{t`Emails (one per line, empty = all)`}</Label>
-								<Textarea
-									id="mon-emails"
-									value={form.notifyEmails}
-									onChange={(e) => set("notifyEmails", e.target.value)}
-									placeholder="ops@example.com"
-									rows={2}
-								/>
-							</div>
-							<div className="grid gap-2">
-								<Label htmlFor="mon-webhooks">{t`Webhooks (one per line, empty = all)`}</Label>
-								<Textarea
-									id="mon-webhooks"
-									value={form.notifyWebhooks}
-									onChange={(e) => set("notifyWebhooks", e.target.value)}
-									placeholder="slack://..."
-									rows={2}
-								/>
-							</div>
-						</>
+						<p className="-mt-2 text-xs text-muted-foreground">
+							{t`Uses your global notification channels (Settings → Notifications).`}
+						</p>
 					)}
 					{monitor && (
 						<MaintenanceSection monitorId={monitor.id} />
